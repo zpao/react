@@ -1,5 +1,6 @@
 require 'sprockets'
 require 'sprockets/engines'
+require 'tilt'
 
 module React
   module JSX
