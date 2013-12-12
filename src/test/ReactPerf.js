@@ -49,9 +49,9 @@ var ReactPerf = {
             measuredFunc = ReactPerf.storedMeasure(objName, fnName, func);
           }
           return measuredFunc.apply(this, arguments);
-        };
+        }
         return func.apply(this, arguments);
-      }
+      };
     }
     return func;
   },
@@ -68,7 +68,7 @@ var ReactPerf = {
 
 if (__DEV__) {
   var ExecutionEnvironment = require('ExecutionEnvironment');
-  var URL = ExecutionEnvironment.canUseDOM ? window.location.href : '';
+  var URL = (ExecutionEnvironment.canUseDOM && window.location.href) || '';
   ReactPerf.enableMeasure = ReactPerf.enableMeasure ||
     !!URL.match(/[?&]react_perf\b/);
 }

@@ -22,9 +22,10 @@ var ReactEventEmitter = require('ReactEventEmitter');
 var ReactInstanceHandles = require('ReactInstanceHandles');
 
 var $ = require('$');
+var containsNode = require('containsNode');
 var getReactRootElementInContainer = require('getReactRootElementInContainer');
 var invariant = require('invariant');
-var nodeContains = require('nodeContains');
+var shouldUpdateReactComponent = require('shouldUpdateReactComponent');
 
 var SEPARATOR = ReactInstanceHandles.SEPARATOR;
 
@@ -44,6 +45,9 @@ if (__DEV__) {
   /** __DEV__-only mapping from reactRootID to root elements. */
   var rootElementsByReactRootID = {};
 }
+
+// Used to store breadth-first search state in findComponentRoot.
+var findComponentRootReusableArray = [];
 
 /**
  * @param {DOMElement} container DOM element that may contain a React component.
@@ -141,7 +145,7 @@ function isValid(node, id) {
     );
 
     var container = ReactMount.findReactContainerForID(id);
-    if (container && nodeContains(container, node)) {
+    if (container && containsNode(container, node)) {
       return true;
     }
   }
@@ -304,12 +308,12 @@ var ReactMount = {
    * @return {ReactComponent} Component instance rendered in `container`.
    */
   renderComponent: function(nextComponent, container, callback) {
-    var registeredComponent = instancesByReactRootID[getReactRootID(container)];
+    var prevComponent = instancesByReactRootID[getReactRootID(container)];
 
-    if (registeredComponent) {
-      if (registeredComponent.constructor === nextComponent.constructor) {
+    if (prevComponent) {
+      if (shouldUpdateReactComponent(prevComponent, nextComponent)) {
         return ReactMount._updateRootComponent(
-          registeredComponent,
+          prevComponent,
           nextComponent,
           container,
           callback
@@ -323,7 +327,7 @@ var ReactMount = {
     var containerHasReactMarkup =
       reactRootElement && ReactMount.isRenderedByReact(reactRootElement);
 
-    var shouldReuseMarkup = containerHasReactMarkup && !registeredComponent;
+    var shouldReuseMarkup = containerHasReactMarkup && !prevComponent;
 
     var component = ReactMount._renderNewRootComponent(
       nextComponent,
@@ -362,7 +366,7 @@ var ReactMount = {
 
   /**
    * Registers a container node into which React components will be rendered.
-   * This also creates the "reatRoot" ID that will be assigned to the element
+   * This also creates the "reactRoot" ID that will be assigned to the element
    * rendered within.
    *
    * @param {DOMElement} container DOM element to register as a container.
@@ -405,20 +409,6 @@ var ReactMount = {
   },
 
   /**
-   * @deprecated
-   */
-  unmountAndReleaseReactRootNode: function() {
-    if (__DEV__) {
-      console.warn(
-        'unmountAndReleaseReactRootNode() has been renamed to ' +
-        'unmountComponentAtNode() and will be removed in the next ' +
-        'version of React.'
-      );
-    }
-    return ReactMount.unmountComponentAtNode.apply(this, arguments);
-  },
-
-  /**
    * Unmounts a component and removes it from the DOM.
    *
    * @param {ReactComponent} instance React component instance.
@@ -429,6 +419,10 @@ var ReactMount = {
    */
   unmountComponentFromNode: function(instance, container) {
     instance.unmountComponent();
+
+    if (container.nodeType === DOC_NODE_TYPE) {
+      container = container.documentElement;
+    }
 
     // http://jsperf.com/emptying-a-node
     while (container.lastChild) {
@@ -533,8 +527,11 @@ var ReactMount = {
    * @internal
    */
   findComponentRoot: function(ancestorNode, id) {
-    var firstChildren = [ancestorNode.firstChild];
+    var firstChildren = findComponentRootReusableArray;
     var childIndex = 0;
+
+    firstChildren[0] = ancestorNode.firstChild;
+    firstChildren.length = 1;
 
     while (childIndex < firstChildren.length) {
       var child = firstChildren[childIndex++];
@@ -542,21 +539,27 @@ var ReactMount = {
         var childID = ReactMount.getID(child);
         if (childID) {
           if (id === childID) {
+            // Emptying firstChildren/findComponentRootReusableArray is
+            // not necessary for correctness, but it helps the GC reclaim
+            // any nodes that were left at the end of the search.
+            firstChildren.length = 0;
+
             return child;
-          } else if (ReactInstanceHandles.isAncestorIDOf(childID, id)) {
+          }
+
+          if (ReactInstanceHandles.isAncestorIDOf(childID, id)) {
             // If we find a child whose ID is an ancestor of the given ID,
             // then we can be sure that we only want to search the subtree
             // rooted at this child, so we can throw out the rest of the
             // search state.
             firstChildren.length = childIndex = 0;
             firstChildren.push(child.firstChild);
+
+            // Ignore the rest of this child's siblings and immediately
+            // continue the outer loop with child.firstChild as child.
             break;
-          } else {
-            // TODO This should not be necessary if the ID hierarchy is
-            // correct, but is occasionally necessary if the DOM has been
-            // modified in unexpected ways.
-            firstChildren.push(child.firstChild);
           }
+
         } else {
           // If this child had no ID, then there's a chance that it was
           // injected automatically by the browser, as when a `<table>`
@@ -565,9 +568,12 @@ var ReactMount = {
           // branch, but not before examining the other siblings.
           firstChildren.push(child.firstChild);
         }
+
         child = child.nextSibling;
       }
     }
+
+    firstChildren.length = 0;
 
     if (__DEV__) {
       console.error(
@@ -591,6 +597,8 @@ var ReactMount = {
    */
 
   ATTR_NAME: ATTR_NAME,
+
+  getReactRootID: getReactRootID,
 
   getID: getID,
 

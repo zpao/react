@@ -179,9 +179,13 @@ ReactDOMComponent.Mixin = {
     return '';
   },
 
-  receiveProps: function(nextProps, transaction) {
-    assertValidProps(nextProps);
-    ReactComponent.Mixin.receiveProps.call(this, nextProps, transaction);
+  receiveComponent: function(nextComponent, transaction) {
+    assertValidProps(nextComponent.props);
+    ReactComponent.Mixin.receiveComponent.call(
+      this,
+      nextComponent,
+      transaction
+    );
   },
 
   /**
@@ -196,8 +200,13 @@ ReactDOMComponent.Mixin = {
   updateComponent: ReactPerf.measure(
     'ReactDOMComponent',
     'updateComponent',
-    function(transaction, prevProps) {
-      ReactComponent.Mixin.updateComponent.call(this, transaction, prevProps);
+    function(transaction, prevProps, prevOwner) {
+      ReactComponent.Mixin.updateComponent.call(
+        this,
+        transaction,
+        prevProps,
+        prevOwner
+      );
       this._updateDOMProperties(prevProps);
       this._updateDOMChildren(prevProps, transaction);
     }

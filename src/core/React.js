@@ -20,6 +20,7 @@
 
 var ReactComponent = require('ReactComponent');
 var ReactCompositeComponent = require('ReactCompositeComponent');
+var ReactContext = require('ReactContext');
 var ReactCurrentOwner = require('ReactCurrentOwner');
 var ReactDOM = require('ReactDOM');
 var ReactDOMComponent = require('ReactDOMComponent');
@@ -50,9 +51,9 @@ var React = {
   ),
   renderComponentToString: ReactServerRendering.renderComponentToString,
   unmountComponentAtNode: ReactMount.unmountComponentAtNode,
-  unmountAndReleaseReactRootNode: ReactMount.unmountAndReleaseReactRootNode,
   isValidClass: ReactCompositeComponent.isValidClass,
   isValidComponent: ReactComponent.isValidComponent,
+  withContext: ReactContext.withContext,
   __internals: {
     Component: ReactComponent,
     CurrentOwner: ReactCurrentOwner,
@@ -66,6 +67,6 @@ var React = {
 
 // Version exists only in the open-source version of React, not in Facebook's
 // internal version.
-React.version = '0.5.0-alpha';
+React.version = '0.9.0-alpha';
 
 module.exports = React;

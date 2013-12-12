@@ -22,7 +22,8 @@ var CodeMirrorEditor = React.createClass({
       mode: 'javascript',
       lineNumbers: false,
       matchBrackets: true,
-      theme: 'solarized-light'
+      theme: 'solarized-light',
+      readOnly: this.props.readOnly
     });
     this.editor.on('change', this.onChange);
     this.onChange();
@@ -44,7 +45,7 @@ var CodeMirrorEditor = React.createClass({
     }
 
     return (
-      <div class={this.props.className}>
+      <div className={this.props.className}>
         {editor}
       </div>
     );
@@ -76,22 +77,22 @@ var ReactPlayground = React.createClass({
       content =
         <CodeMirrorEditor
           onChange={this.bindState('code')}
-          class="playgroundStage"
+          className="playgroundStage"
           codeText={this.state.code}
         />;
     } else if (this.state.mode === this.MODES.JS) {
       content =
-        <div class="playgroundJS playgroundStage">
-            {this.getDesugaredCode()}
+        <div className="playgroundJS playgroundStage">
+          {this.getDesugaredCode()}
         </div>;
     }
 
     return (
-      <div class="playground">
-        <div class="playgroundCode">
+      <div className="playground">
+        <div className="playgroundCode">
           {content}
         </div>
-        <div class="playgroundPreview">
+        <div className="playgroundPreview">
           <div ref="mount" />
         </div>
       </div>
@@ -111,17 +112,18 @@ var ReactPlayground = React.createClass({
     } catch (e) { }
 
     try {
+      var desugaredCode = this.getDesugaredCode();
       if (this.props.renderCode) {
         React.renderComponent(
-          <pre>{this.getDesugaredCode()}</pre>,
+          <CodeMirrorEditor codeText={desugaredCode} readOnly={true} />,
           mountNode
         );
       } else {
-        eval(this.getDesugaredCode());
+        eval(desugaredCode);
       }
     } catch (e) {
       React.renderComponent(
-        <div content={e.toString()} class="playgroundError" />,
+        <div content={e.toString()} className="playgroundError" />,
         mountNode
       );
     }

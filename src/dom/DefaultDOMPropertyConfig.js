@@ -26,6 +26,8 @@ var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
 var HAS_SIDE_EFFECTS = DOMProperty.injection.HAS_SIDE_EFFECTS;
+var HAS_POSITIVE_NUMERIC_VALUE =
+  DOMProperty.injection.HAS_POSITIVE_NUMERIC_VALUE;
 
 var DefaultDOMPropertyConfig = {
   isCustomAttribute: RegExp.prototype.test.bind(
@@ -41,6 +43,7 @@ var DefaultDOMPropertyConfig = {
     allowFullScreen: MUST_USE_ATTRIBUTE | HAS_BOOLEAN_VALUE,
     allowTransparency: MUST_USE_ATTRIBUTE,
     alt: null,
+    async: HAS_BOOLEAN_VALUE,
     autoComplete: null,
     autoFocus: HAS_BOOLEAN_VALUE,
     autoPlay: HAS_BOOLEAN_VALUE,
@@ -49,6 +52,7 @@ var DefaultDOMPropertyConfig = {
     charSet: MUST_USE_ATTRIBUTE,
     checked: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     className: MUST_USE_PROPERTY,
+    cols: MUST_USE_ATTRIBUTE | HAS_POSITIVE_NUMERIC_VALUE,
     colSpan: null,
     content: null,
     contentEditable: null,
@@ -56,8 +60,9 @@ var DefaultDOMPropertyConfig = {
     controls: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     data: null, // For `<object />` acts as `src`.
     dateTime: MUST_USE_ATTRIBUTE,
+    defer: HAS_BOOLEAN_VALUE,
     dir: null,
-    disabled: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
+    disabled: MUST_USE_ATTRIBUTE | HAS_BOOLEAN_VALUE,
     draggable: null,
     encType: null,
     form: MUST_USE_ATTRIBUTE,
@@ -72,6 +77,7 @@ var DefaultDOMPropertyConfig = {
     label: null,
     lang: null,
     list: null,
+    loop: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     max: null,
     maxLength: MUST_USE_ATTRIBUTE,
     method: null,
@@ -87,11 +93,12 @@ var DefaultDOMPropertyConfig = {
     rel: null,
     required: HAS_BOOLEAN_VALUE,
     role: MUST_USE_ATTRIBUTE,
+    rows: MUST_USE_ATTRIBUTE | HAS_POSITIVE_NUMERIC_VALUE,
     rowSpan: null,
     scrollLeft: MUST_USE_PROPERTY,
     scrollTop: MUST_USE_PROPERTY,
     selected: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
-    size: null,
+    size: MUST_USE_ATTRIBUTE | HAS_POSITIVE_NUMERIC_VALUE,
     spellCheck: null,
     src: null,
     step: null,
@@ -108,6 +115,7 @@ var DefaultDOMPropertyConfig = {
      * Non-standard Properties
      */
     autoCapitalize: null, // Supported in Mobile Safari for keyboard hints
+    autoCorrect: null, // Supported in Mobile Safari for keyboard hints
 
     /**
      * SVG Properties
@@ -156,6 +164,7 @@ var DefaultDOMPropertyConfig = {
   DOMPropertyNames: {
     autoCapitalize: 'autocapitalize',
     autoComplete: 'autocomplete',
+    autoCorrect: 'autocorrect',
     autoFocus: 'autofocus',
     autoPlay: 'autoplay',
     encType: 'enctype',

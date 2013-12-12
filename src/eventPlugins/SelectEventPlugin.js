@@ -22,10 +22,10 @@ var EventConstants = require('EventConstants');
 var EventPluginHub = require('EventPluginHub');
 var EventPropagators = require('EventPropagators');
 var ExecutionEnvironment = require('ExecutionEnvironment');
+var ReactInputSelection = require('ReactInputSelection');
 var SyntheticEvent = require('SyntheticEvent');
 
 var getActiveElement = require('getActiveElement');
-var isEventSupported = require('isEventSupported');
 var isTextInputElement = require('isTextInputElement');
 var keyOf = require('keyOf');
 var shallowEqual = require('shallowEqual');
@@ -42,11 +42,9 @@ var eventTypes = {
 };
 
 var useSelectionChange = false;
-var useSelect = false;
 
 if (ExecutionEnvironment.canUseDOM) {
   useSelectionChange = 'onselectionchange' in document;
-  useSelect = isEventSupported('select');
 }
 
 var activeElement = null;
@@ -65,7 +63,8 @@ var mouseDown = false;
  * @param {object}
  */
 function getSelection(node) {
-  if ('selectionStart' in node) {
+  if ('selectionStart' in node &&
+      ReactInputSelection.hasSelectionCapabilities(node)) {
     return {
       start: node.selectionStart,
       end: node.selectionEnd
@@ -180,14 +179,12 @@ var SelectEventPlugin = {
           activeElement = topLevelTarget;
           activeElementID = topLevelTargetID;
           lastSelection = null;
-          mouseDown = false;
         }
         break;
       case topLevelTypes.topBlur:
         activeElement = null;
         activeElementID = null;
         lastSelection = null;
-        mouseDown = false;
         break;
 
       // Don't fire the event while the user is dragging. This matches the
@@ -195,6 +192,7 @@ var SelectEventPlugin = {
       case topLevelTypes.topMouseDown:
         mouseDown = true;
         break;
+      case topLevelTypes.topContextMenu:
       case topLevelTypes.topMouseUp:
         mouseDown = false;
         return constructSelectEvent(nativeEvent);

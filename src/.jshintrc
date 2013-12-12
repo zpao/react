@@ -1,6 +1,7 @@
 {
   "browser": true,
 
+  "bitwise": true,
   "boss": true,
   "curly": true,
   "devel": true,
@@ -14,6 +15,7 @@
   "nonstandard": true,
   "onecase": true,
   "regexdash": true,
+  "sub": false,
   "trailing": true,
   "undef": true,
   "unused": "vars",

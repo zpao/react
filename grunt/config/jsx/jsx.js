@@ -10,6 +10,7 @@ var rootIDs = [
 var getDebugConfig = function() {
   return {
     "debug": true,
+    "commonerConfig": grunt.config.data.pkg.commonerConfig,
     "constants": {
       "__VERSION__": grunt.config.data.pkg.version,
       "__DEV__": true
@@ -24,15 +25,6 @@ var debug = {
   outputDir: "build/modules"
 };
 
-var jasmine = {
-  rootIDs: [
-    "all"
-  ],
-  getConfig: getDebugConfig,
-  sourceDir: "vendor/jasmine",
-  outputDir: "build/jasmine"
-};
-
 var test = {
   rootIDs: rootIDs.concat([
     "test/all.js",
@@ -42,6 +34,7 @@ var test = {
     return {
       "debug": true,
       "mocking": true,
+      "commonerConfig": grunt.config.data.pkg.commonerConfig,
       "constants": {
         "__VERSION__": grunt.config.data.pkg.version,
         "__DEV__": true
@@ -58,6 +51,7 @@ var release = {
   getConfig: function() {
     return {
       "debug": false,
+      "commonerConfig": grunt.config.data.pkg.commonerConfig,
       "constants": {
         "__VERSION__": grunt.config.data.pkg.version,
         "__DEV__": false
@@ -71,7 +65,6 @@ var release = {
 
 module.exports = {
   debug: debug,
-  jasmine: jasmine,
   test: test,
   release: release
 };

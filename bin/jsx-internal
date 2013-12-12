@@ -1,11 +1,14 @@
 #!/usr/bin/env node
+// -*- mode: js -*-
 "use strict";
 
-var visitors = require('../vendor/fbtransform/visitors').transformVisitors;
+var getVisitorsList = require('../vendor/fbtransform/visitors').getVisitorsList;
 var transform = require('jstransform').transform;
 var propagate = require("../vendor/constants").propagate;
 
-require("commoner").resolve(function(id) {
+require("commoner").version(
+  require("../package.json").version
+).resolve(function(id) {
   var context = this;
 
   // Note that the result of context.getProvidedP() is cached for the
@@ -28,7 +31,7 @@ require("commoner").resolve(function(id) {
   var constants = context.config.constants || {};
 
   // This is where JSX, ES6, etc. desugaring happens.
-  source = transform(visitors.react, source).code;
+  source = transform(getVisitorsList(), source).code;
 
   // Constant propagation means removing any obviously dead code after
   // replacing constant expressions with literal (boolean) values.

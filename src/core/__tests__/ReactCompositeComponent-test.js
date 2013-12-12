@@ -190,6 +190,29 @@ describe('ReactCompositeComponent', function() {
 
   });
 
+  it('should use default values for undefined props', function() {
+    var Component = React.createClass({
+      getDefaultProps: function() {
+        return {key: 'testKey'};
+      },
+      render: function() {
+        return <span />;
+      }
+    });
+
+    var instance1 = <Component />;
+    ReactTestUtils.renderIntoDocument(instance1);
+    reactComponentExpect(instance1).scalarPropsEqual({key: 'testKey'});
+
+    var instance2 = <Component key={undefined} />;
+    ReactTestUtils.renderIntoDocument(instance2);
+    reactComponentExpect(instance2).scalarPropsEqual({key: 'testKey'});
+
+    var instance3 = <Component key={null} />;
+    ReactTestUtils.renderIntoDocument(instance3);
+    reactComponentExpect(instance3).scalarPropsEqual({key: null});
+  });
+
   it('should normalize props with default values', function() {
     var Component = React.createClass({
       propTypes: {key: ReactPropTypes.string.isRequired},
@@ -264,6 +287,57 @@ describe('ReactCompositeComponent', function() {
     expect(function() {
       ReactTestUtils.renderIntoDocument(<Component key="string" />);
     }).not.toThrow();
+  });
+
+  it('should throw on invalid prop types', function() {
+    expect(function() {
+      React.createClass({
+        displayName: 'Component',
+        propTypes: {
+          key: null
+        },
+        render: function() {
+          return <span>{this.props.key}</span>;
+        }
+      });
+    }).toThrow(
+      'Invariant Violation: Component: prop type `key` is invalid; ' +
+      'it must be a function, usually from React.PropTypes.'
+    );
+  });
+
+  it('should throw on invalid context types', function() {
+    expect(function() {
+      React.createClass({
+        displayName: 'Component',
+        contextTypes: {
+          key: null
+        },
+        render: function() {
+          return <span>{this.props.key}</span>;
+        }
+      });
+    }).toThrow(
+      'Invariant Violation: Component: context type `key` is invalid; ' +
+      'it must be a function, usually from React.PropTypes.'
+    );
+  });
+
+  it('should throw on invalid child context types', function() {
+    expect(function() {
+      React.createClass({
+        displayName: 'Component',
+        childContextTypes: {
+          key: null
+        },
+        render: function() {
+          return <span>{this.props.key}</span>;
+        }
+      });
+    }).toThrow(
+      'Invariant Violation: Component: child context type `key` is invalid; ' +
+      'it must be a function, usually from React.PropTypes.'
+    );
   });
 
   it('should not allow `forceUpdate` on unmounted components', function() {
@@ -452,5 +526,337 @@ describe('ReactCompositeComponent', function() {
     } finally {
       console.warn = warn;
     }
+  });
+
+  xit('should warn when using deprecated non-static spec keys', function() {
+    var warn = console.warn;
+    console.warn = mocks.getMockFunction();
+    try {
+      React.createClass({
+        mixins: [{}],
+        propTypes: {
+          foo: ReactPropTypes.string
+        },
+        contextTypes: {
+          foo: ReactPropTypes.string
+        },
+        childContextTypes: {
+          foo: ReactPropTypes.string
+        },
+        render: function() {
+          return <div />;
+        }
+      });
+      expect(console.warn.mock.calls.length).toBe(4);
+      expect(console.warn.mock.calls[0][0]).toBe(
+        'createClass(...): `mixins` is now a static property and should ' +
+        'be defined inside "statics".'
+      );
+      expect(console.warn.mock.calls[1][0]).toBe(
+        'createClass(...): `propTypes` is now a static property and should ' +
+        'be defined inside "statics".'
+      );
+      expect(console.warn.mock.calls[2][0]).toBe(
+        'createClass(...): `contextTypes` is now a static property and ' +
+        'should be defined inside "statics".'
+      );
+      expect(console.warn.mock.calls[3][0]).toBe(
+        'createClass(...): `childContextTypes` is now a static property and ' +
+        'should be defined inside "statics".'
+      );
+    } catch (e) {
+      throw e;
+    } finally {
+      console.warn = warn;
+    }
+  });
+
+  it('should pass context', function() {
+    var childInstance = null;
+    var grandchildInstance = null;
+
+    var Parent = React.createClass({
+      childContextTypes: {
+        foo: ReactPropTypes.string,
+        depth: ReactPropTypes.number
+      },
+
+      getChildContext: function() {
+        return {
+          foo: 'bar',
+          depth: 0
+        };
+      },
+
+      render: function() {
+        childInstance = <Child />;
+        return childInstance;
+      }
+    });
+
+    var Child = React.createClass({
+      contextTypes: {
+        foo: ReactPropTypes.string,
+        depth: ReactPropTypes.number
+      },
+
+      childContextTypes: {
+        depth: ReactPropTypes.number
+      },
+
+      getChildContext: function() {
+        return {
+          depth: this.context.depth + 1
+        };
+      },
+
+      render: function() {
+        grandchildInstance = <Grandchild />;
+        return grandchildInstance;
+      }
+    });
+
+    var Grandchild = React.createClass({
+      contextTypes: {
+        foo: ReactPropTypes.string,
+        depth: ReactPropTypes.number
+      },
+
+      render: function() {
+        return <div />;
+      }
+    });
+
+    var instance = <Parent />;
+    ReactTestUtils.renderIntoDocument(instance);
+    reactComponentExpect(childInstance).scalarContextEqual({foo: 'bar', depth: 0});
+    reactComponentExpect(grandchildInstance).scalarContextEqual({foo: 'bar', depth: 1});
+  });
+
+  it('should check context types', function() {
+    var Component = React.createClass({
+      contextTypes: {
+        foo: ReactPropTypes.string.isRequired
+      },
+
+      render: function() {
+        return <div />;
+      }
+    });
+
+    expect(function() {
+      ReactTestUtils.renderIntoDocument(<Component />);
+    }).toThrow(
+      'Invariant Violation: Required context `foo` was not specified in ' +
+      '`Component`.'
+    );
+
+    expect(function() {
+      React.withContext({foo: 'bar'}, function() {
+        ReactTestUtils.renderIntoDocument(<Component />);
+      });
+    }).not.toThrow();
+
+    expect(function() {
+      React.withContext({foo: 123}, function() {
+        ReactTestUtils.renderIntoDocument(<Component />);
+      });
+    }).toThrow(
+      'Invariant Violation: Invalid context `foo` of type `number` supplied ' +
+      'to `Component`, expected `string`.'
+    );
+  });
+
+  it('should check child context types', function() {
+    var Component = React.createClass({
+      childContextTypes: {
+        foo: ReactPropTypes.string.isRequired,
+        bar: ReactPropTypes.number
+      },
+
+      getChildContext: function() {
+        return this.props.testContext;
+      },
+
+      render: function() {
+        return <div />;
+      }
+    });
+
+    expect(function() {
+      ReactTestUtils.renderIntoDocument(
+        <Component testContext={{bar: 123}} />
+      );
+    }).toThrow(
+      'Invariant Violation: Required child context `foo` was not specified ' +
+      'in `Component`.'
+    );
+
+    expect(function() {
+      ReactTestUtils.renderIntoDocument(
+        <Component testContext={{foo: 123}} />
+      );
+    }).toThrow(
+      'Invariant Violation: Invalid child context `foo` of type `number` ' +
+      'supplied to `Component`, expected `string`.'
+    );
+
+    expect(function() {
+      ReactTestUtils.renderIntoDocument(
+        <Component testContext={{foo: 'foo', bar: 123}} />
+      );
+    }).not.toThrow();
+
+    expect(function() {
+      ReactTestUtils.renderIntoDocument(
+        <Component testContext={{foo: 'foo'}} />
+      );
+    }).not.toThrow();
+  });
+
+  it('should filter out context not in contextTypes', function() {
+    var Component = React.createClass({
+      contextTypes: {
+        foo: ReactPropTypes.string
+      },
+
+      render: function() {
+        return <div />;
+      }
+    });
+
+    var instance = React.withContext({foo: 'abc', bar: 123}, function() {
+      return <Component />;
+    });
+    ReactTestUtils.renderIntoDocument(instance);
+    reactComponentExpect(instance).scalarContextEqual({foo: 'abc'});
+  });
+
+  it('should filter context properly in callbacks', function() {
+    var actualComponentWillReceiveProps;
+    var actualShouldComponentUpdate;
+    var actualComponentWillUpdate;
+    var actualComponentDidUpdate;
+
+    var Parent = React.createClass({
+      childContextTypes: {
+        foo: ReactPropTypes.string.isRequired,
+        bar: ReactPropTypes.string.isRequired
+      },
+
+      getChildContext: function() {
+        return {
+          foo: this.props.foo,
+          bar: "bar"
+        };
+      },
+
+      render: function() {
+        return <Component />;
+      }
+    });
+
+    var Component = React.createClass({
+      contextTypes: {
+        foo: ReactPropTypes.string
+      },
+
+      componentWillReceiveProps: function(nextProps, nextContext) {
+        actualComponentWillReceiveProps = nextContext;
+        return true;
+      },
+
+      shouldComponentUpdate: function(nextProps, nextState, nextContext) {
+        actualShouldComponentUpdate = nextContext;
+        return true;
+      },
+
+      componentWillUpdate: function(nextProps, nextState, nextContext) {
+        actualComponentWillUpdate = nextContext;
+      },
+
+      componentDidUpdate: function(prevProps, prevState, prevContext) {
+        actualComponentDidUpdate = prevContext;
+      },
+
+      render: function() {
+        return <div />;
+      }
+    });
+
+    var instance = <Parent foo="abc" />;
+    ReactTestUtils.renderIntoDocument(instance);
+    instance.replaceProps({foo: "def"});
+    expect(actualComponentWillReceiveProps).toEqual({foo: 'def'});
+    expect(actualShouldComponentUpdate).toEqual({foo: 'def'});
+    expect(actualComponentWillUpdate).toEqual({foo: 'def'});
+    expect(actualComponentDidUpdate).toEqual({foo: 'abc'});
+  });
+
+  it('should support statics', function() {
+    var Component = React.createClass({
+      statics: {
+        abc: 'def'
+      },
+
+      render: function() {
+        return <span />;
+      }
+    });
+    var instance = <Component />;
+    ReactTestUtils.renderIntoDocument(instance);
+    expect(instance.constructor.abc).toBe('def');
+    expect(Component.abc).toBe('def');
+  });
+
+  it('should support statics in mixins', function() {
+    var Mixin = {
+      statics: {
+        foo: 'bar'
+      }
+    };
+    var Component = React.createClass({
+      mixins: [Mixin],
+
+      statics: {
+        abc: 'def'
+      },
+
+      render: function() {
+        return <span />;
+      }
+    });
+    var instance = <Component />;
+    ReactTestUtils.renderIntoDocument(instance);
+    expect(instance.constructor.foo).toBe('bar');
+    expect(Component.foo).toBe('bar');
+    expect(instance.constructor.abc).toBe('def');
+    expect(Component.abc).toBe('def');
+  });
+
+  it("should throw if mixins override each others' statics", function() {
+    expect(function() {
+      var Mixin = {
+        statics: {
+          abc: 'foo'
+        }
+      };
+      React.createClass({
+        mixins: [Mixin],
+
+        statics: {
+          abc: 'bar'
+        },
+
+        render: function() {
+          return <span />;
+        }
+      });
+    }).toThrow(
+      'Invariant Violation: ReactCompositeComponent: You are attempting to ' +
+      'define `abc` on your component more than once, but that is only ' +
+      'supported for functions, which are chained together. This conflict ' +
+      'may be due to a mixin.'
+    );
   });
 });

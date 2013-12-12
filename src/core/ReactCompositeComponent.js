@@ -19,10 +19,14 @@
 "use strict";
 
 var ReactComponent = require('ReactComponent');
+var ReactContext = require('ReactContext');
 var ReactCurrentOwner = require('ReactCurrentOwner');
+var ReactErrorUtils = require('ReactErrorUtils');
 var ReactOwner = require('ReactOwner');
 var ReactPerf = require('ReactPerf');
 var ReactPropTransferer = require('ReactPropTransferer');
+var ReactPropTypeLocations = require('ReactPropTypeLocations');
+var ReactPropTypeLocationNames = require('ReactPropTypeLocationNames');
 var ReactUpdates = require('ReactUpdates');
 
 var invariant = require('invariant');
@@ -30,6 +34,7 @@ var keyMirror = require('keyMirror');
 var merge = require('merge');
 var mixInto = require('mixInto');
 var objMap = require('objMap');
+var shouldUpdateReactComponent = require('shouldUpdateReactComponent');
 
 /**
  * Policies that describe methods in `ReactCompositeComponentInterface`.
@@ -89,14 +94,37 @@ var ReactCompositeComponentInterface = {
   mixins: SpecPolicy.DEFINE_MANY,
 
   /**
+   * An object containing properties and methods that should be defined on
+   * the component's constructor instead of its prototype (static methods).
+   *
+   * @type {object}
+   * @optional
+   */
+  statics: SpecPolicy.DEFINE_MANY,
+
+  /**
    * Definition of prop types for this component.
    *
    * @type {object}
    * @optional
    */
-  propTypes: SpecPolicy.DEFINE_ONCE,
+  propTypes: SpecPolicy.DEFINE_MANY,
 
+  /**
+   * Definition of context types for this component.
+   *
+   * @type {object}
+   * @optional
+   */
+  contextTypes: SpecPolicy.DEFINE_MANY,
 
+  /**
+   * Definition of context types this component sets for its children.
+   *
+   * @type {object}
+   * @optional
+   */
+  childContextTypes: SpecPolicy.DEFINE_MANY,
 
   // ==== Definition methods ====
 
@@ -127,6 +155,12 @@ var ReactCompositeComponentInterface = {
    * @optional
    */
   getInitialState: SpecPolicy.DEFINE_MANY_MERGED,
+
+  /**
+   * @return {object}
+   * @optional
+   */
+  getChildContext: SpecPolicy.DEFINE_MANY_MERGED,
 
   /**
    * Uses props from `this.props` and state from `this.state` to render the
@@ -177,7 +211,7 @@ var ReactCompositeComponentInterface = {
    * Use this as an opportunity to react to a prop transition by updating the
    * state using `this.setState`. Current props are accessed via `this.props`.
    *
-   *   componentWillReceiveProps: function(nextProps) {
+   *   componentWillReceiveProps: function(nextProps, nextContext) {
    *     this.setState({
    *       likesIncreasing: nextProps.likeCount > this.props.likeCount
    *     });
@@ -194,17 +228,21 @@ var ReactCompositeComponentInterface = {
 
   /**
    * Invoked while deciding if the component should be updated as a result of
-   * receiving new props and state.
+   * receiving new props, state and/or context.
    *
    * Use this as an opportunity to `return false` when you're certain that the
-   * transition to the new props and state will not require a component update.
+   * transition to the new props/state/context will not require a component
+   * update.
    *
-   *   shouldComponentUpdate: function(nextProps, nextState) {
-   *     return !equal(nextProps, this.props) || !equal(nextState, this.state);
+   *   shouldComponentUpdate: function(nextProps, nextState, nextContext) {
+   *     return !equal(nextProps, this.props) ||
+   *       !equal(nextState, this.state) ||
+   *       !equal(nextContext, this.context);
    *   }
    *
    * @param {object} nextProps
    * @param {?object} nextState
+   * @param {?object} nextContext
    * @return {boolean} True if the component should update.
    * @optional
    */
@@ -212,7 +250,8 @@ var ReactCompositeComponentInterface = {
 
   /**
    * Invoked when the component is about to update due to a transition from
-   * `this.props` and `this.state` to `nextProps` and `nextState`.
+   * `this.props`, `this.state` and `this.context` to `nextProps`, `nextState`
+   * and `nextContext`.
    *
    * Use this as an opportunity to perform preparation before an update occurs.
    *
@@ -220,6 +259,7 @@ var ReactCompositeComponentInterface = {
    *
    * @param {object} nextProps
    * @param {?object} nextState
+   * @param {?object} nextContext
    * @param {ReactReconcileTransaction} transaction
    * @optional
    */
@@ -233,6 +273,7 @@ var ReactCompositeComponentInterface = {
    *
    * @param {object} prevProps
    * @param {?object} prevState
+   * @param {?object} prevContext
    * @param {DOMElement} rootNode DOM element representing the component.
    * @optional
    */
@@ -272,24 +313,72 @@ var ReactCompositeComponentInterface = {
 /**
  * Mapping from class specification keys to special processing functions.
  *
- * Although these are declared in the specification when defining classes
- * using `React.createClass`, they will not be on the component's prototype.
+ * Although these are declared like instance properties in the specification
+ * when defining classes using `React.createClass`, they are actually static
+ * and are accessible on the constructor instead of the prototype. Despite
+ * being static, they must be defined outside of the "statics" key under
+ * which all other static methods are defined.
  */
 var RESERVED_SPEC_KEYS = {
-  displayName: function(Constructor, displayName) {
-    Constructor.displayName = displayName;
+  displayName: function(ConvenienceConstructor, displayName) {
+    ConvenienceConstructor.componentConstructor.displayName = displayName;
   },
-  mixins: function(Constructor, mixins) {
+  mixins: function(ConvenienceConstructor, mixins) {
     if (mixins) {
       for (var i = 0; i < mixins.length; i++) {
-        mixSpecIntoComponent(Constructor, mixins[i]);
+        mixSpecIntoComponent(ConvenienceConstructor, mixins[i]);
       }
     }
   },
-  propTypes: function(Constructor, propTypes) {
-    Constructor.propTypes = propTypes;
+  childContextTypes: function(ConvenienceConstructor, childContextTypes) {
+    var Constructor = ConvenienceConstructor.componentConstructor;
+    validateTypeDef(
+      Constructor,
+      childContextTypes,
+      ReactPropTypeLocations.childContext
+    );
+    Constructor.childContextTypes = merge(
+      Constructor.childContextTypes,
+      childContextTypes
+    );
+  },
+  contextTypes: function(ConvenienceConstructor, contextTypes) {
+    var Constructor = ConvenienceConstructor.componentConstructor;
+    validateTypeDef(
+      Constructor,
+      contextTypes,
+      ReactPropTypeLocations.context
+    );
+    Constructor.contextTypes = merge(Constructor.contextTypes, contextTypes);
+  },
+  propTypes: function(ConvenienceConstructor, propTypes) {
+    var Constructor = ConvenienceConstructor.componentConstructor;
+    validateTypeDef(
+      Constructor,
+      propTypes,
+      ReactPropTypeLocations.prop
+    );
+    Constructor.propTypes = merge(Constructor.propTypes, propTypes);
+  },
+  statics: function(ConvenienceConstructor, statics) {
+    mixStaticSpecIntoComponent(ConvenienceConstructor, statics);
   }
 };
+
+function validateTypeDef(Constructor, typeDef, location) {
+  for (var propName in typeDef) {
+    if (typeDef.hasOwnProperty(propName)) {
+      invariant(
+        typeof typeDef[propName] == 'function',
+        '%s: %s type `%s` is invalid; it must be a function, usually from ' +
+        'React.PropTypes.',
+        Constructor.displayName || 'ReactCompositeComponent',
+        ReactPropTypeLocationNames[location],
+        propName
+      );
+    }
+  }
+}
 
 function validateMethodOverride(proto, name) {
   var specPolicy = ReactCompositeComponentInterface[name];
@@ -318,7 +407,6 @@ function validateMethodOverride(proto, name) {
   }
 }
 
-
 function validateLifeCycleOnReplaceState(instance) {
   var compositeLifeCycleState = instance._compositeLifeCycleState;
   invariant(
@@ -326,11 +414,14 @@ function validateLifeCycleOnReplaceState(instance) {
       compositeLifeCycleState === CompositeLifeCycle.MOUNTING,
     'replaceState(...): Can only update a mounted or mounting component.'
   );
-  invariant(
-    compositeLifeCycleState !== CompositeLifeCycle.RECEIVING_STATE &&
-    compositeLifeCycleState !== CompositeLifeCycle.UNMOUNTING,
-    'replaceState(...): Cannot update while unmounting component or during ' +
-    'an existing state transition (such as within `render`).'
+  invariant(compositeLifeCycleState !== CompositeLifeCycle.RECEIVING_STATE,
+    'replaceState(...): Cannot update during an existing state transition ' +
+    '(such as within `render`). This could potentially cause an infinite ' +
+    'loop so it is forbidden.'
+  );
+  invariant(compositeLifeCycleState !== CompositeLifeCycle.UNMOUNTING,
+    'replaceState(...): Cannot update while unmounting component. This ' +
+    'usually means you called setState() on an unmounted component.'
   );
 }
 
@@ -338,17 +429,19 @@ function validateLifeCycleOnReplaceState(instance) {
  * Custom version of `mixInto` which handles policy validation and reserved
  * specification keys when building `ReactCompositeComponent` classses.
  */
-function mixSpecIntoComponent(Constructor, spec) {
+function mixSpecIntoComponent(ConvenienceConstructor, spec) {
+  var Constructor = ConvenienceConstructor.componentConstructor;
   var proto = Constructor.prototype;
   for (var name in spec) {
     var property = spec[name];
     if (!spec.hasOwnProperty(name) || !property) {
       continue;
     }
+
     validateMethodOverride(proto, name);
 
     if (RESERVED_SPEC_KEYS.hasOwnProperty(name)) {
-      RESERVED_SPEC_KEYS[name](Constructor, property);
+      RESERVED_SPEC_KEYS[name](ConvenienceConstructor, property);
     } else {
       // Setup methods on prototype:
       // The following member methods should not be automatically bound:
@@ -385,6 +478,37 @@ function mixSpecIntoComponent(Constructor, spec) {
         }
       }
     }
+  }
+}
+
+function mixStaticSpecIntoComponent(ConvenienceConstructor, statics) {
+  if (!statics) {
+    return;
+  }
+  for (var name in statics) {
+    var property = statics[name];
+    if (!statics.hasOwnProperty(name) || !property) {
+      return;
+    }
+
+    var isInherited = name in ConvenienceConstructor;
+    var result = property;
+    if (isInherited) {
+      var existingProperty = ConvenienceConstructor[name];
+      var existingType = typeof existingProperty;
+      var propertyType = typeof property;
+      invariant(
+        existingType === 'function' && propertyType === 'function',
+        'ReactCompositeComponent: You are attempting to define ' +
+        '`%s` on your component more than once, but that is only supported ' +
+        'for functions, which are chained together. This conflict may be ' +
+        'due to a mixin.',
+        name
+      );
+      result = createChainedFunction(existingProperty, property);
+    }
+    ConvenienceConstructor[name] = result;
+    ConvenienceConstructor.componentConstructor[name] = result;
   }
 }
 
@@ -510,8 +634,14 @@ var ReactCompositeComponentMixin = {
   construct: function(initialProps, children) {
     // Children can be either an array or more than one argument
     ReactComponent.Mixin.construct.apply(this, arguments);
+
     this.state = null;
     this._pendingState = null;
+
+    this.context = this._processContext(ReactContext.current);
+    this._currentContext = ReactContext.current;
+    this._pendingContext = null;
+
     this._compositeLifeCycleState = null;
   },
 
@@ -658,6 +788,64 @@ var ReactCompositeComponentMixin = {
   },
 
   /**
+   * Filters the context object to only contain keys specified in
+   * `contextTypes`, and asserts that they are valid.
+   *
+   * @param {object} context
+   * @return {?object}
+   * @private
+   */
+  _processContext: function(context) {
+    var maskedContext = null;
+    var contextTypes = this.constructor.contextTypes;
+    if (contextTypes) {
+      maskedContext = {};
+      for (var contextName in contextTypes) {
+        maskedContext[contextName] = context[contextName];
+      }
+      this._checkPropTypes(
+        contextTypes,
+        maskedContext,
+        ReactPropTypeLocations.context
+      );
+    }
+    return maskedContext;
+  },
+
+  /**
+   * @param {object} currentContext
+   * @return {object}
+   * @private
+   */
+  _processChildContext: function(currentContext) {
+    var childContext = this.getChildContext && this.getChildContext();
+    var displayName = this.constructor.displayName || 'ReactCompositeComponent';
+    if (childContext) {
+      invariant(
+        typeof this.constructor.childContextTypes === 'object',
+        '%s.getChildContext(): childContextTypes must be defined in order to ' +
+        'use getChildContext().',
+        displayName
+      );
+      this._checkPropTypes(
+        this.constructor.childContextTypes,
+        childContext,
+        ReactPropTypeLocations.childContext
+      );
+      for (var name in childContext) {
+        invariant(
+          name in this.constructor.childContextTypes,
+          '%s.getChildContext(): key "%s" is not defined in childContextTypes.',
+          displayName,
+          name
+        );
+      }
+      return merge(currentContext, childContext);
+    }
+    return currentContext;
+  },
+
+  /**
    * Processes props by setting default values for unspecified props and
    * asserting that the props are valid.
    *
@@ -665,21 +853,31 @@ var ReactCompositeComponentMixin = {
    * @private
    */
   _processProps: function(props) {
-    var propName;
     var defaultProps = this._defaultProps;
-    for (propName in defaultProps) {
-      if (!(propName in props)) {
+    for (var propName in defaultProps) {
+      if (typeof props[propName] === 'undefined') {
         props[propName] = defaultProps[propName];
       }
     }
     var propTypes = this.constructor.propTypes;
     if (propTypes) {
-      var componentName = this.constructor.displayName;
-      for (propName in propTypes) {
-        var checkProp = propTypes[propName];
-        if (checkProp) {
-          checkProp(props, propName, componentName);
-        }
+      this._checkPropTypes(propTypes, props, ReactPropTypeLocations.prop);
+    }
+  },
+
+  /**
+   * Assert that the props are valid
+   *
+   * @param {object} propTypes Map of prop name to a ReactPropType
+   * @param {object} props
+   * @param {string} location e.g. "prop", "context", "child context"
+   * @private
+   */
+  _checkPropTypes: function(propTypes, props, location) {
+    var componentName = this.constructor.displayName;
+    for (var propName in propTypes) {
+      if (propTypes.hasOwnProperty(propName)) {
+        propTypes[propName](props, propName, componentName, location);
       }
     }
   },
@@ -705,9 +903,14 @@ var ReactCompositeComponentMixin = {
   _performUpdateIfNecessary: function(transaction) {
     if (this._pendingProps == null &&
         this._pendingState == null &&
+        this._pendingContext == null &&
         !this._pendingForceUpdate) {
       return;
     }
+
+    var nextFullContext = this._pendingContext || this._currentContext;
+    var nextContext = this._processContext(nextFullContext);
+    this._pendingContext = null;
 
     var nextProps = this.props;
     if (this._pendingProps != null) {
@@ -717,26 +920,42 @@ var ReactCompositeComponentMixin = {
 
       this._compositeLifeCycleState = CompositeLifeCycle.RECEIVING_PROPS;
       if (this.componentWillReceiveProps) {
-        this.componentWillReceiveProps(nextProps, transaction);
+        this.componentWillReceiveProps(nextProps, nextContext);
       }
     }
 
     this._compositeLifeCycleState = CompositeLifeCycle.RECEIVING_STATE;
+
+    // Unlike props, state, and context, we specifically don't want to set
+    // _pendingOwner to null here because it's possible for a component to have
+    // a null owner, so we instead make `this._owner === this._pendingOwner`
+    // mean that there's no owner change pending.
+    var nextOwner = this._pendingOwner;
 
     var nextState = this._pendingState || this.state;
     this._pendingState = null;
 
     if (this._pendingForceUpdate ||
         !this.shouldComponentUpdate ||
-        this.shouldComponentUpdate(nextProps, nextState)) {
+        this.shouldComponentUpdate(nextProps, nextState, nextContext)) {
       this._pendingForceUpdate = false;
-      // Will set `this.props` and `this.state`.
-      this._performComponentUpdate(nextProps, nextState, transaction);
+      // Will set `this.props`, `this.state` and `this.context`.
+      this._performComponentUpdate(
+        nextProps,
+        nextOwner,
+        nextState,
+        nextFullContext,
+        nextContext,
+        transaction
+      );
     } else {
       // If it's determined that a component should not update, we still want
       // to set props and state.
       this.props = nextProps;
+      this._owner = nextOwner;
       this.state = nextState;
+      this._currentContext = nextFullContext;
+      this.context = nextContext;
     }
 
     this._compositeLifeCycleState = null;
@@ -747,29 +966,59 @@ var ReactCompositeComponentMixin = {
    * performs update.
    *
    * @param {object} nextProps Next object to set as properties.
+   * @param {?ReactComponent} nextOwner Next component to set as owner
    * @param {?object} nextState Next object to set as state.
+   * @param {?object} nextFullContext Next object to set as _currentContext.
+   * @param {?object} nextContext Next object to set as context.
    * @param {ReactReconcileTransaction} transaction
    * @private
    */
-  _performComponentUpdate: function(nextProps, nextState, transaction) {
+  _performComponentUpdate: function(
+    nextProps,
+    nextOwner,
+    nextState,
+    nextFullContext,
+    nextContext,
+    transaction
+  ) {
     var prevProps = this.props;
+    var prevOwner = this._owner;
     var prevState = this.state;
+    var prevContext = this.context;
 
     if (this.componentWillUpdate) {
-      this.componentWillUpdate(nextProps, nextState, transaction);
+      this.componentWillUpdate(nextProps, nextState, nextContext);
     }
 
     this.props = nextProps;
+    this._owner = nextOwner;
     this.state = nextState;
+    this._currentContext = nextFullContext;
+    this.context = nextContext;
 
-    this.updateComponent(transaction, prevProps, prevState);
+    this.updateComponent(
+      transaction,
+      prevProps,
+      prevOwner,
+      prevState,
+      prevContext
+    );
 
     if (this.componentDidUpdate) {
       transaction.getReactMountReady().enqueue(
         this,
-        this.componentDidUpdate.bind(this, prevProps, prevState)
+        this.componentDidUpdate.bind(this, prevProps, prevState, prevContext)
       );
     }
+  },
+
+  receiveComponent: function(nextComponent, transaction) {
+    this._pendingContext = nextComponent._currentContext;
+    ReactComponent.Mixin.receiveComponent.call(
+      this,
+      nextComponent,
+      transaction
+    );
   },
 
   /**
@@ -780,24 +1029,31 @@ var ReactCompositeComponentMixin = {
    *
    * @param {ReactReconcileTransaction} transaction
    * @param {object} prevProps
+   * @param {?ReactComponent} prevOwner
    * @param {?object} prevState
+   * @param {?object} prevContext
    * @internal
    * @overridable
    */
   updateComponent: ReactPerf.measure(
     'ReactCompositeComponent',
     'updateComponent',
-    function(transaction, prevProps, prevState) {
-      ReactComponent.Mixin.updateComponent.call(this, transaction, prevProps);
-      var currentComponent = this._renderedComponent;
+    function(transaction, prevProps, prevOwner, prevState, prevContext) {
+      ReactComponent.Mixin.updateComponent.call(
+        this,
+        transaction,
+        prevProps,
+        prevOwner
+      );
+      var prevComponent = this._renderedComponent;
       var nextComponent = this._renderValidatedComponent();
-      if (currentComponent.constructor === nextComponent.constructor) {
-        currentComponent.receiveProps(nextComponent.props, transaction);
+      if (shouldUpdateReactComponent(prevComponent, nextComponent)) {
+        prevComponent.receiveComponent(nextComponent, transaction);
       } else {
         // These two IDs are actually the same! But nothing should rely on that.
         var thisID = this._rootNodeID;
-        var currentComponentID = currentComponent._rootNodeID;
-        currentComponent.unmountComponent();
+        var prevComponentID = prevComponent._rootNodeID;
+        prevComponent.unmountComponent();
         this._renderedComponent = nextComponent;
         var nextMarkup = nextComponent.mountComponent(
           thisID,
@@ -805,7 +1061,7 @@ var ReactCompositeComponentMixin = {
           this._mountDepth + 1
         );
         ReactComponent.DOMIDOperations.dangerouslyReplaceNodeWithMarkupByID(
-          currentComponentID,
+          prevComponentID,
           nextMarkup
         );
       }
@@ -849,6 +1105,8 @@ var ReactCompositeComponentMixin = {
    */
   _renderValidatedComponent: function() {
     var renderedComponent;
+    var previousContext = ReactContext.current;
+    ReactContext.current = this._processChildContext(this._currentContext);
     ReactCurrentOwner.current = this;
     try {
       renderedComponent = this.render();
@@ -856,11 +1114,13 @@ var ReactCompositeComponentMixin = {
       // IE8 requires `catch` in order to use `finally`.
       throw error;
     } finally {
+      ReactContext.current = previousContext;
       ReactCurrentOwner.current = null;
     }
     invariant(
       ReactComponent.isValidComponent(renderedComponent),
-      '%s.render(): A valid ReactComponent must be returned.',
+      '%s.render(): A valid ReactComponent must be returned. You may have ' +
+      'returned null, undefined, an array, or some other invalid object.',
       this.constructor.displayName || 'ReactCompositeComponent'
     );
     return renderedComponent;
@@ -875,7 +1135,10 @@ var ReactCompositeComponentMixin = {
         continue;
       }
       var method = this.__reactAutoBindMap[autoBindKey];
-      this[autoBindKey] = this._bindAutoBindMethod(method);
+      this[autoBindKey] = this._bindAutoBindMethod(ReactErrorUtils.guard(
+        method,
+        this.constructor.displayName + '.' + autoBindKey
+      ));
     }
   },
 
@@ -956,7 +1219,16 @@ var ReactCompositeComponent = {
     var Constructor = function() {};
     Constructor.prototype = new ReactCompositeComponentBase();
     Constructor.prototype.constructor = Constructor;
-    mixSpecIntoComponent(Constructor, spec);
+
+    var ConvenienceConstructor = function(props, children) {
+      var instance = new Constructor();
+      instance.construct.apply(instance, arguments);
+      return instance;
+    };
+    ConvenienceConstructor.componentConstructor = Constructor;
+    ConvenienceConstructor.originalSpec = spec;
+
+    mixSpecIntoComponent(ConvenienceConstructor, spec);
 
     invariant(
       Constructor.prototype.render,
@@ -981,13 +1253,6 @@ var ReactCompositeComponent = {
       }
     }
 
-    var ConvenienceConstructor = function(props, children) {
-      var instance = new Constructor();
-      instance.construct.apply(instance, arguments);
-      return instance;
-    };
-    ConvenienceConstructor.componentConstructor = Constructor;
-    ConvenienceConstructor.originalSpec = spec;
     return ConvenienceConstructor;
   },
 

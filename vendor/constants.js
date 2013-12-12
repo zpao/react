@@ -16,58 +16,82 @@
 'use strict';
 
 var recast = require('recast');
+var types = recast.types;
+var namedTypes = types.namedTypes;
+var builders = types.builders;
+var hasOwn = Object.prototype.hasOwnProperty;
 
-exports.propagate = function(constants, source) {
-  var ast = recast.parse(source);
-  ast = new ConstantVisitor(constants).visit(ast);
-  return recast.print(ast);
-};
+function propagate(constants, source) {
+  return recast.print(transform(recast.parse(source), constants));
+}
 
-var ConstantVisitor = recast.Visitor.extend({
-  init: function(constants) {
-    this.constants = constants || {};
-  },
+var DEV_EXPRESSION = builders.binaryExpression(
+  '!==',
+  builders.literal('production'),
+  builders.memberExpression(
+    builders.memberExpression(
+      builders.identifier('process'),
+      builders.identifier('env'),
+      false
+    ),
+    builders.identifier('NODE_ENV'),
+    false
+  )
+);
 
-  visitIdentifier: function(ident) {
-    if (this.constants.hasOwnProperty(ident.name)) {
-      return recast.builder.literal(this.constants[ident.name]);
-    }
-  },
+function transform(ast, constants) {
+  constants = constants || {};
 
-  visitCallExpression: function(call) {
-    if (!this.constants.__DEV__) {
-      if (call.callee.type === 'Identifier' && call.callee.name === 'invariant') {
-        call.arguments.length = 1;
+  return types.traverse(ast, function(node, traverse) {
+    if (namedTypes.Identifier.check(node)) {
+      // If the identifier is the property of a member expression
+      // (e.g. object.property), then it definitely is not a constant
+      // expression that we want to replace.
+      if (namedTypes.MemberExpression.check(this.parent.node) &&
+          this.name === 'property' &&
+          !this.parent.node.computed) {
+        return false;
+      }
+
+      // There could in principle be a constant called "hasOwnProperty",
+      // so be careful always to use Object.prototype.hasOwnProperty.
+      if (node.name === '__DEV__') {
+        // replace __DEV__ with process.env.NODE_ENV !== 'production'
+        this.replace(DEV_EXPRESSION);
+        return false;
+      } else if (hasOwn.call(constants, node.name)) {
+        this.replace(builders.literal(constants[node.name]));
+        return false;
+      }
+
+    } else if (namedTypes.CallExpression.check(node)) {
+      if (namedTypes.Identifier.check(node.callee) &&
+          node.callee.name === 'invariant') {
+        // Truncate the arguments of invariant(condition, ...)
+        // statements to just the condition based on NODE_ENV
+        // (dead code removal will remove the extra bytes).
+        this.replace(
+          builders.conditionalExpression(
+            DEV_EXPRESSION,
+            node,
+            builders.callExpression(
+              node.callee,
+              [node.arguments[0]]
+            )
+          )
+        );
+        return false;
       }
     }
-    this.genericVisit(call);
-  },
-
-  visitIfStatement: function(stmt) {
-    // Replaces all identifiers in this.constants with literal values.
-    this.genericVisit(stmt);
-
-    if (stmt.test.type === recast.Syntax.Literal) {
-      if (stmt.test.value) {
-        stmt.alternate = null;
-      } else if (stmt.alternate) {
-        return stmt.alternate;
-      } else {
-        // In case this if statement is an alternate clause for another
-        // if-statement, replacing that alternate with null will have the
-        // effect of pruning the unnecessary clause.  If this is just a
-        // free-floating if statement, replacing it with null will have
-        // the effect of removing it from the enclosing list of
-        // statements.
-        return null;
-      }
-    }
-  }
-});
+  });
+}
 
 if (!module.parent) {
   var constants = JSON.parse(process.argv[3]);
   recast.run(function(ast, callback) {
-    callback(new ConstantVisitor(constants).visit(ast));
+    callback(transform(ast, constants));
   });
 }
+
+exports.propagate = propagate;
+exports.transform = transform;

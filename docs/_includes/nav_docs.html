@@ -1,5 +1,6 @@
 <div class="nav-docs">
-  {% for section in site.nav_docs_sections %}
+  <!-- Docs Nav -->
+  {% for section in site.data.nav_docs %}
     <div class="nav-docs-section">
       <h3>{{ section.title }}</h3>
       <ul>
@@ -19,6 +20,20 @@
                 {% endfor %}
               </ul>
             {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+
+  <!-- Tips Nav -->
+  {% for section in site.data.nav_tips %}
+    <div class="nav-docs-section">
+      <h3>{{ section.title }}</h3>
+      <ul>
+        {% for item in section.items %}
+          <li>
+            <a href="/react/tips/{{ item.id }}.html"{% if page.id == item.id %} class="active"{% endif %}>{{ item.title }}</a>
           </li>
         {% endfor %}
       </ul>

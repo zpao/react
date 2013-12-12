@@ -23,19 +23,7 @@ var ReactComponent = require('ReactComponent');
 var ReactMultiChildUpdateTypes = require('ReactMultiChildUpdateTypes');
 
 var flattenChildren = require('flattenChildren');
-
-/**
- * Given a `curChild` and `newChild`, determines if `curChild` should be
- * updated as opposed to being destroyed or replaced.
- *
- * @param {?ReactComponent} curChild
- * @param {?ReactComponent} newChild
- * @return {boolean} True if `curChild` should be updated with `newChild`.
- * @protected
- */
-function shouldUpdateChild(curChild, newChild) {
-  return curChild && newChild && curChild.constructor === newChild.constructor;
-}
+var shouldUpdateReactComponent = require('shouldUpdateReactComponent');
 
 /**
  * Updating children of a component may trigger recursive updates. The depth is
@@ -79,8 +67,8 @@ function enqueueMarkup(parentID, markup, toIndex) {
     parentNode: null,
     type: ReactMultiChildUpdateTypes.INSERT_MARKUP,
     markupIndex: markupQueue.push(markup) - 1,
-    fromIndex: null,
     textContent: null,
+    fromIndex: null,
     toIndex: toIndex
   });
 }
@@ -294,10 +282,10 @@ var ReactMultiChild = {
         }
         var prevChild = prevChildren && prevChildren[name];
         var nextChild = nextChildren[name];
-        if (shouldUpdateChild(prevChild, nextChild)) {
+        if (shouldUpdateReactComponent(prevChild, nextChild)) {
           this.moveChild(prevChild, nextIndex, lastIndex);
           lastIndex = Math.max(prevChild._mountIndex, lastIndex);
-          prevChild.receiveProps(nextChild.props, transaction);
+          prevChild.receiveComponent(nextChild, transaction);
           prevChild._mountIndex = nextIndex;
         } else {
           if (prevChild) {

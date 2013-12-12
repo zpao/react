@@ -3,11 +3,14 @@
 var exec = require('child_process').exec;
 var jsxTask = require('./grunt/tasks/jsx');
 var browserifyTask = require('./grunt/tasks/browserify');
-var wrapupTask = require('./grunt/tasks/wrapup');
 var populistTask = require('./grunt/tasks/populist');
-var phantomTask = require('./grunt/tasks/phantom');
+var webdriverPhantomJSTask = require('./grunt/tasks/webdriver-phantomjs');
+var webdriverJasmineTasks = require('./grunt/tasks/webdriver-jasmine');
+var sauceTunnelTask = require('./grunt/tasks/sauce-tunnel');
 var npmTask = require('./grunt/tasks/npm');
 var releaseTasks = require('./grunt/tasks/release');
+var npmReactTasks = require('./grunt/tasks/npm-react');
+var versionCheckTask = require('./grunt/tasks/version-check');
 
 module.exports = function(grunt) {
 
@@ -16,22 +19,22 @@ module.exports = function(grunt) {
     copy: require('./grunt/config/copy'),
     jsx: require('./grunt/config/jsx/jsx'),
     browserify: require('./grunt/config/browserify'),
-    wrapup: require('./grunt/config/wrapup'),
     populist: require('./grunt/config/populist'),
-    phantom: require('./grunt/config/phantom'),
+    connect: require('./grunt/config/server')(grunt),
+    "webdriver-jasmine": require('./grunt/config/webdriver-jasmine.js'),
     npm: require('./grunt/config/npm'),
-    clean: ['./build', './*.gem', './docs/_site', './examples/shared/*.js'],
+    clean: ['./build', './*.gem', './docs/_site', './examples/shared/*.js', '.module-cache'],
     jshint: require('./grunt/config/jshint'),
-    compare_size: require('./grunt/config/compare_size')
+    compare_size: require('./grunt/config/compare_size'),
+    complexity: require('./grunt/config/complexity')
   });
 
   grunt.config.set('compress', require('./grunt/config/compress'));
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-compare-size');
-  grunt.loadNpmTasks('grunt-contrib-compress');
+  Object.keys(grunt.file.readJSON('package.json').devDependencies)
+    .filter(function(npmTaskName) { return npmTaskName.indexOf('grunt-') === 0; })
+    .filter(function(npmTaskName) { return npmTaskName != 'grunt-cli'; })
+    .forEach(function(npmTaskName) { grunt.loadNpmTasks(npmTaskName); });
 
   // Alias 'jshint' to 'lint' to better match the workflow we know
   grunt.registerTask('lint', ['jshint']);
@@ -42,45 +45,98 @@ module.exports = function(grunt) {
   // Our own browserify-based tasks to build a single JS file build
   grunt.registerMultiTask('browserify', browserifyTask);
 
-  // Similar to Browserify, use WrapUp to generate single JS file that
-  // defines global variables instead of using require.
-  grunt.registerMultiTask('wrapup', wrapupTask);
-
   grunt.registerMultiTask('populist', populistTask);
 
-  grunt.registerMultiTask('phantom', phantomTask);
+  grunt.registerTask('sauce-tunnel', sauceTunnelTask);
+
+  grunt.registerMultiTask('webdriver-jasmine', webdriverJasmineTasks);
 
   grunt.registerMultiTask('npm', npmTask);
 
-  // Check that the version we're exporting is the same one we expect in the
-  // package. This is not an ideal way to do this, but makes sure that we keep
-  // them in sync.
-  var reactVersionExp = /\bReact\.version\s*=\s*['"]([^'"]+)['"];/;
-  grunt.registerTask('version-check', function() {
-    var version = reactVersionExp.exec(
-      grunt.file.read('./build/modules/React.js')
-    )[1];
-    var expectedVersion = grunt.config.data.pkg.version;
-    if (version !== expectedVersion) {
-      grunt.log.error('Versions do not match. Expected %s, saw %s', expectedVersion, version);
-      return false;
-    }
-  });
+  grunt.registerTask('npm-react:release', npmReactTasks.buildRelease);
+
+  grunt.registerTask('version-check', versionCheckTask);
 
   grunt.registerTask('build:basic', ['jsx:debug', 'version-check', 'browserify:basic']);
   grunt.registerTask('build:addons', ['jsx:debug', 'browserify:addons']);
   grunt.registerTask('build:transformer', ['jsx:debug', 'browserify:transformer']);
   grunt.registerTask('build:min', ['jsx:release', 'version-check', 'browserify:min']);
   grunt.registerTask('build:addons-min', ['jsx:debug', 'browserify:addonsMin']);
+  grunt.registerTask('build:withCodeCoverageLogging', [
+    'jsx:debug',
+    'version-check',
+    'browserify:withCodeCoverageLogging'
+  ]);
   grunt.registerTask('build:test', [
-    'jsx:jasmine',
     'jsx:test',
     'version-check',
-    'populist:jasmine',
     'populist:test'
   ]);
+  grunt.registerTask('build:npm-react', ['version-check', 'jsx:release', 'react-core:release']);
 
-  grunt.registerTask('test', ['build:test', 'build:basic', 'phantom:run']);
+  grunt.registerTask('webdriver-phantomjs', webdriverPhantomJSTask);
+
+  grunt.registerTask('coverage:parse', require('./grunt/tasks/coverage-parse'));
+
+  grunt.registerTask('test:webdriver:phantomjs', [
+    'connect',
+    'webdriver-phantomjs',
+    'webdriver-jasmine:local'
+  ]);
+
+  grunt.registerTask('test:full', [
+    'build:test',
+    'build:basic',
+
+    'connect',
+    'webdriver-phantomjs',
+    'webdriver-jasmine:local',
+
+    'sauce-tunnel',
+    'webdriver-jasmine:saucelabs_android',
+    'webdriver-jasmine:saucelabs_firefox',
+    'webdriver-jasmine:saucelabs_chrome'
+  ]);
+
+  grunt.registerTask('test:webdriver:saucelabs', [
+    'build:test',
+    'build:basic',
+
+    'connect',
+    'sauce-tunnel',
+    'webdriver-jasmine:saucelabs_' + (process.env.BROWSER_NAME || 'ie8')
+  ]);
+
+  grunt.registerTask('test:webdriver:saucelabs:ie', [
+    'build:test',
+    'build:basic',
+
+    'connect',
+    'sauce-tunnel',
+    'webdriver-jasmine:saucelabs_ie8',
+    'webdriver-jasmine:saucelabs_ie9',
+    'webdriver-jasmine:saucelabs_ie10',
+    'webdriver-jasmine:saucelabs_ie11'
+  ]);
+
+  grunt.registerTask('test:webdriver:saucelabs:ios', [
+    'build:test',
+    'build:basic',
+
+    'connect',
+    'sauce-tunnel',
+    'webdriver-jasmine:saucelabs_ios6_1',
+    'webdriver-jasmine:saucelabs_ios5_1',
+    'webdriver-jasmine:saucelabs_ios4'
+  ]);
+
+  grunt.registerTask('test:coverage', [
+    'build:test',
+    'build:withCodeCoverageLogging',
+    'test:webdriver:phantomjs',
+    'coverage:parse'
+  ]);
+  grunt.registerTask('test', ['build:test', 'build:basic', 'test:webdriver:phantomjs']);
   grunt.registerTask('npm:test', ['build', 'npm:pack']);
 
   // Optimized build task that does all of our builds. The subtasks will be run

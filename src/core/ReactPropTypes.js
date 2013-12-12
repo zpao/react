@@ -18,6 +18,8 @@
 
 "use strict";
 
+var ReactPropTypeLocationNames = require('ReactPropTypeLocationNames');
+
 var createObjectFrom = require('createObjectFrom');
 var invariant = require('invariant');
 
@@ -79,6 +81,7 @@ var Props = {
   string: createPrimitiveTypeChecker('string'),
 
   oneOf: createEnumTypeChecker,
+  oneOfType: createUnionTypeChecker,
 
   instanceOf: createInstanceTypeChecker
 
@@ -87,14 +90,21 @@ var Props = {
 var ANONYMOUS = '<<anonymous>>';
 
 function createPrimitiveTypeChecker(expectedType) {
-  function validatePrimitiveType(propValue, propName, componentName) {
+  function validatePrimitiveType(
+    shouldThrow, propValue, propName, componentName, location
+  ) {
     var propType = typeof propValue;
     if (propType === 'object' && Array.isArray(propValue)) {
       propType = 'array';
     }
+    var isValid = propType === expectedType;
+    if (!shouldThrow) {
+      return isValid;
+    }
     invariant(
-      propType === expectedType,
-      'Invalid prop `%s` of type `%s` supplied to `%s`, expected `%s`.',
+      isValid,
+      'Invalid %s `%s` of type `%s` supplied to `%s`, expected `%s`.',
+      ReactPropTypeLocationNames[location],
       propName,
       propType,
       componentName,
@@ -106,10 +116,17 @@ function createPrimitiveTypeChecker(expectedType) {
 
 function createEnumTypeChecker(expectedValues) {
   var expectedEnum = createObjectFrom(expectedValues);
-  function validateEnumType(propValue, propName, componentName) {
+  function validateEnumType(
+    shouldThrow, propValue, propName, componentName, location
+  ) {
+    var isValid = expectedEnum[propValue];
+    if (!shouldThrow) {
+      return isValid;
+    }
     invariant(
-      expectedEnum[propValue],
-      'Invalid prop `%s` supplied to `%s`, expected one of %s.',
+      isValid,
+      'Invalid %s `%s` supplied to `%s`, expected one of %s.',
+      ReactPropTypeLocationNames[location],
       propName,
       componentName,
       JSON.stringify(Object.keys(expectedEnum))
@@ -119,10 +136,17 @@ function createEnumTypeChecker(expectedValues) {
 }
 
 function createInstanceTypeChecker(expectedClass) {
-  function validateInstanceType(propValue, propName, componentName) {
+  function validateInstanceType(
+    shouldThrow, propValue, propName, componentName, location
+  ) {
+    var isValid = propValue instanceof expectedClass;
+    if (!shouldThrow) {
+      return isValid;
+    }
     invariant(
-      propValue instanceof expectedClass,
-      'Invalid prop `%s` supplied to `%s`, expected instance of `%s`.',
+      isValid,
+      'Invalid %s `%s` supplied to `%s`, expected instance of `%s`.',
+      ReactPropTypeLocationNames[location],
       propName,
       componentName,
       expectedClass.name || ANONYMOUS
@@ -132,27 +156,64 @@ function createInstanceTypeChecker(expectedClass) {
 }
 
 function createChainableTypeChecker(validate) {
-  function createTypeChecker(isRequired) {
-    function checkType(props, propName, componentName) {
-      var propValue = props[propName];
-      if (propValue != null) {
-        // Only validate if there is a value to check.
-        validate(propValue, propName, componentName || ANONYMOUS);
-      } else {
-        invariant(
-          !isRequired,
-          'Required prop `%s` was not specified in `%s`.',
-          propName,
-          componentName || ANONYMOUS
-        );
+  function checkType(
+    isRequired, shouldThrow, props, propName, componentName, location
+  ) {
+    var propValue = props[propName];
+    if (propValue != null) {
+      // Only validate if there is a value to check.
+      return validate(
+        shouldThrow,
+        propValue,
+        propName,
+        componentName || ANONYMOUS,
+        location
+      );
+    } else {
+      var isValid = !isRequired;
+      if (!shouldThrow) {
+        return isValid;
+      }
+      invariant(
+        isValid,
+        'Required %s `%s` was not specified in `%s`.',
+        ReactPropTypeLocationNames[location],
+        propName,
+        componentName || ANONYMOUS
+      );
+    }
+  }
+
+  var checker = checkType.bind(null, false, true);
+  checker.weak = checkType.bind(null, false, false);
+  checker.isRequired = checkType.bind(null, true, true);
+  checker.weak.isRequired = checkType.bind(null, true, false);
+  checker.isRequired.weak = checker.weak.isRequired;
+
+  return checker;
+}
+
+function createUnionTypeChecker(arrayOfValidators) {
+  return function(props, propName, componentName, location) {
+    var isValid = false;
+    for (var ii = 0; ii < arrayOfValidators.length; ii++) {
+      var validate = arrayOfValidators[ii];
+      if (typeof validate.weak === 'function') {
+        validate = validate.weak;
+      }
+      if (validate(props, propName, componentName, location)) {
+        isValid = true;
+        break;
       }
     }
-    if (!isRequired) {
-      checkType.isRequired = createTypeChecker(true);
-    }
-    return checkType;
-  }
-  return createTypeChecker(false);
+    invariant(
+      isValid,
+      'Invalid %s `%s` supplied to `%s`.',
+      ReactPropTypeLocationNames[location],
+      propName,
+      componentName || ANONYMOUS
+    );
+  };
 }
 
 module.exports = Props;
