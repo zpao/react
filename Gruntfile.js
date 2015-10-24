@@ -1,12 +1,5 @@
 'use strict';
 
-var path = require('path');
-
-var GULP_EXE = 'gulp';
-if (process.platform === 'win32') {
-  GULP_EXE += '.cmd';
-}
-
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -23,22 +16,6 @@ module.exports = function(grunt) {
   });
 
   grunt.config.set('compress', require('./grunt/config/compress'));
-
-  function spawnGulp(args, opts, done) {
-
-    grunt.util.spawn({
-      // This could be more flexible (require.resolve & lookup bin in package)
-      // but if it breaks we'll fix it then.
-      cmd: path.join('node_modules', '.bin', GULP_EXE),
-      args: args,
-      opts: Object.assign({stdio: 'inherit'}, opts),
-    }, function(err, result, code) {
-      if (err) {
-        grunt.fail.fatal('Something went wrong running gulp: ', result);
-      }
-      done(code === 0);
-    });
-  }
 
   Object.keys(grunt.file.readJSON('package.json').devDependencies)
     .filter(function(npmTaskName) {
