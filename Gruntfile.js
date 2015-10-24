@@ -11,7 +11,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    browserify: require('./grunt/config/browserify'),
     npm: require('./grunt/config/npm'),
     clean: [
       './build',
@@ -57,8 +56,6 @@ module.exports = function(grunt) {
     spawnGulp(['react:clean'], null, this.async());
   });
 
-  // Our own browserify-based tasks to build a single JS file build.
-  grunt.registerMultiTask('browserify', require('./grunt/tasks/browserify'));
 
   grunt.registerMultiTask('npm', require('./grunt/tasks/npm'));
 
@@ -79,20 +76,20 @@ module.exports = function(grunt) {
   grunt.registerTask('build:basic', [
     'build-modules',
     'version-check',
-    'browserify:basic',
+    // 'browserify:basic',
   ]);
   grunt.registerTask('build:addons', [
     'build-modules',
-    'browserify:addons',
+    // 'browserify:addons',
   ]);
   grunt.registerTask('build:min', [
     'build-modules',
     'version-check',
-    'browserify:min',
+    // 'browserify:min',
   ]);
   grunt.registerTask('build:addons-min', [
     'build-modules',
-    'browserify:addonsMin',
+    // 'browserify:addonsMin',
   ]);
   grunt.registerTask('build:npm-react', [
     'version-check',
@@ -114,10 +111,10 @@ module.exports = function(grunt) {
     'delete-build-modules',
     'build-modules',
     'version-check',
-    'browserify:basic',
-    'browserify:addons',
-    'browserify:min',
-    'browserify:addonsMin',
+    // 'browserify:basic',
+    // 'browserify:addons',
+    // 'browserify:min',
+    // 'browserify:addonsMin',
     'build:react-dom',
     'npm-react:release',
     'npm-react:pack',
