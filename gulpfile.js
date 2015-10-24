@@ -187,6 +187,9 @@ gulp.task('browserify', [
   'browserify:addonsMin',
 ]);
 
+gulp.task('build-modules', ['react:modules']);
+gulp.task('delete-build-modules', ['react:clean']);
+
 gulp.task('eslint', function(cb) {
   var extension = process.platform === 'win32' ? '.cmd': '';
   spawn(
