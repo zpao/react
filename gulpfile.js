@@ -45,6 +45,25 @@ var babelOpts = {
   ],
 };
 
+gulp.task('eslint', function(cb) {
+  var extension = process.platform === 'win32' ? '.cmd': '';
+  spawn(
+    process.execPath,
+    [path.join('node_modules', '.bin', 'eslint' + extension), '.'],
+    {stdio: 'inherit'}
+  ).on('close', function(code) {
+    if (code === 0) {
+      gutil.log('Lint passed');
+      cb();
+    } else {
+      gutil.log('Lint failed');
+      process.exit(code);
+    }
+  });
+});
+
+gulp.task('lint', ['eslint']);
+
 gulp.task('react:clean', function() {
   return del([paths.react.lib]);
 });
