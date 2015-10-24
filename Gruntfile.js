@@ -42,11 +42,9 @@ module.exports = function(grunt) {
   grunt.registerTask('npm-react-addons:release', npmReactAddonsTasks.buildReleases);
   grunt.registerTask('npm-react-addons:pack', npmReactAddonsTasks.packReleases);
 
-  grunt.registerTask('version-check', require('./grunt/tasks/version-check'));
-
   grunt.registerTask('build:basic', [
     // 'build-modules',
-    'version-check',
+    // 'version-check',
     // 'browserify:basic',
   ]);
   grunt.registerTask('build:addons', [
@@ -55,7 +53,7 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('build:min', [
     // 'build-modules',
-    'version-check',
+    // 'version-check',
     // 'browserify:min',
   ]);
   grunt.registerTask('build:addons-min', [
@@ -63,7 +61,7 @@ module.exports = function(grunt) {
     // 'browserify:addonsMin',
   ]);
   grunt.registerTask('build:npm-react', [
-    'version-check',
+    // 'version-check',
     // 'build-modules',
     'npm-react:release',
   ]);
@@ -81,7 +79,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     // 'delete-build-modules',
     // 'build-modules',
-    'version-check',
+    // 'version-check',
     // 'browserify:basic',
     // 'browserify:addons',
     // 'browserify:min',
