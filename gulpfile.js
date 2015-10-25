@@ -218,6 +218,146 @@ gulp.task('build:react-dom', function() {
   return out.pipe(gulp.dest('build'));
 });
 
+//------------------------------------------------------------------------------
+// npm-react-addons
+//------------------------------------------------------------------------------
+
+var addons = {
+  CSSTransitionGroup: {
+    module: 'ReactCSSTransitionGroup',
+    name: 'css-transition-group',
+    docs: 'animation',
+  },
+  LinkedStateMixin: {
+    module: 'LinkedStateMixin',
+    name: 'linked-state-mixin',
+    docs: 'two-way-binding-helpers',
+  },
+  Perf: {
+    module: 'ReactDefaultPerf',
+    name: 'perf',
+    docs: 'perf',
+  },
+  PureRenderMixin: {
+    module: 'ReactComponentWithPureRenderMixin',
+    name: 'pure-render-mixin',
+    docs: 'pure-render-mixin',
+  },
+  TestUtils: {
+    module: 'ReactTestUtils',
+    name: 'test-utils',
+    docs: 'test-utils',
+  },
+  TransitionGroup: {
+    module: 'ReactTransitionGroup',
+    name: 'transition-group',
+    docs: 'animation',
+  },
+  createFragment: {
+    module: 'ReactFragment',
+    method: 'create',
+    name: 'create-fragment',
+    docs: 'create-fragment',
+  },
+  shallowCompare: {
+    module: 'shallowCompare',
+    name: 'shallow-compare',
+  },
+  updates: {
+    module: 'update',
+    name: 'update',
+    docs: 'update',
+  },
+};
+
+gulp.task('npm-react-addons:release', function() {
+  var rawPkg = fs.readFileSync('./packages/react-addons/package.json', 'utf8');
+  var license = fs.readFileSync('./LICENSE', 'utf8');
+  var patents = fs.readFileSync('./PATENTS', 'utf8');
+
+  var dest = gulp.dest('build/packages');
+
+  Object.keys(addons).map(function(k) {
+    var info = addons[k];
+    var link = info.docs ? info.docs : 'addons';
+    link = `https://facebook.github.io/react/docs/${link}.html`;
+
+    var pkgData = JSON.parse(rawPkg);
+    pkgData.name = 'react-addons-' + info.name;
+
+    dest.write(new gutil.File({
+      path: pkgData.name + '/package.json',
+      contents: new Buffer(JSON.stringify(pkgData, null, 2)),
+    }));
+
+    dest.write(new gutil.File({
+      path: pkgData.name + '/index.js',
+      contents: new Buffer(
+        'module.exports = require(\'react/lib/' + info.module + '\')' +
+          (info.method ? '.' + info.method : '') +
+        ';'
+      ),
+    }));
+
+    dest.write(new gutil.File({
+      path: pkgData.name + '/README.md',
+      contents: new Buffer(
+        `
+# ${pkgData.name}
+
+This package provides the React ${k} add-on.
+
+See <${link}> for more information.`.slice(1)
+      ),
+    }));
+
+    dest.write(new gutil.File({
+      path: pkgData.name + '/LICENSE',
+      contents: new Buffer(license),
+    }));
+
+    dest.write(new gutil.File({
+      path: pkgData.name + '/PATENTS',
+      contents: new Buffer(patents),
+    }));
+  });
+
+  dest.end();
+  return dest;
+});
+
+gulp.task('npm-react-addons:pack', function(done) {
+  var pending = Object.keys(addons).length;
+
+  Object.keys(addons).forEach(function(k) {
+    var pkgName = 'react-addons-' + addons[k].name;
+    var pkgDir = 'build/packages/' + pkgName;
+
+    var buildSrc = pkgName + '-' + packageJson.version + '.tgz';
+    var buildDest = pkgDir + '.tgz';
+
+    var args = ['pack', pkgDir];
+    var opts = {stdio: 'inherit'};
+
+    function next() {
+      if (-- pending === 0) {
+        done();
+      }
+    }
+
+    spawn('npm', args, opts).on('close', function(code) {
+      if (code !== 0) {
+        throw new Error('npm-react-addons:pack failed');
+      }
+      fs.rename(buildSrc, buildDest, next);
+    });
+  });
+});
+
+//------------------------------------------------------------------------------
+// version-check
+//------------------------------------------------------------------------------
+
 gulp.task('version-check', function(done) {
   var failed = false;
   var versions = {
