@@ -196,24 +196,29 @@ gulp.task('build:min', ['version-check', 'browserify:min']);
 gulp.task('build:addons-min', ['version-check', 'browserify:addonsMin']);
 
 gulp.task('build:react-dom', function() {
-  var header = LICENSE_TEMPLATE
-    .replace('<%= package %>', 'ReactDOM')
-    .replace('<%= version %>', packageJson.version);
-  var src = fs.readFileSync('vendor/react-dom.js', 'utf8');
-
-  var dist = new gutil.File({
-    path: 'react-dom.js',
-    contents: new Buffer(header + src),
-  });
-
-  var min = new gutil.File({
-    path: 'react-dom.min.js',
-    contents: new Buffer(header + UglifyJS.minify(src, {fromString: true}).code),
-  });
-
   var out = through.obj();
-  out.push(dist);
-  out.push(min);
+  function build(name, filename) {
+    var header = LICENSE_TEMPLATE
+      .replace('<%= package %>', 'ReactDOM')
+      .replace('<%= version %>', packageJson.version);
+    var src = fs.readFileSync(`vendor/${filename}.js`, 'utf8');
+
+    var dist = new gutil.File({
+      path: `${filename}.js`,
+      contents: new Buffer(header + src),
+    });
+
+    var min = new gutil.File({
+      path: `${filename}.min.js`,
+      contents: new Buffer(header + UglifyJS.minify(src, {fromString: true}).code),
+    });
+
+    out.push(dist);
+    out.push(min);
+  }
+
+  build('ReactDOM', 'react-dom');
+  build('ReactDOMServer', 'react-dom-server');
 
   return out.pipe(gulp.dest('build'));
 });
