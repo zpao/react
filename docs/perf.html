@@ -445,10 +445,12 @@
 <p>&quot;Wasted&quot; time is spent on components that didn&#39;t actually render anything, e.g. the render stayed the same, so the DOM wasn&#39;t touched.</p>
 
 <p><img src="/react/img/docs/perf-wasted.png" alt=""></p>
-<h3><a class="anchor" name="perf.printdommeasurements"></a><code>Perf.printDOM(measurements)</code> <a class="hash-link" href="#perf.printdommeasurements">#</a></h3>
+<h3><a class="anchor" name="perf.printoperationsmeasurements"></a><code>Perf.printOperations(measurements)</code> <a class="hash-link" href="#perf.printoperationsmeasurements">#</a></h3>
 <p>Prints the underlying DOM manipulations, e.g. &quot;set innerHTML&quot; and &quot;remove&quot;.</p>
 
 <p><img src="/react/img/docs/perf-dom.png" alt=""></p>
+<h3><a class="anchor" name="perf.printdommeasurements"></a><code>Perf.printDOM(measurements)</code> <a class="hash-link" href="#perf.printdommeasurements">#</a></h3>
+<p>This method has been renamed to <code>printOperations()</code> which is described in the previous paragraph. Currently <code>printDOM()</code> still exists as an alias but it prints a deprecation warning and will eventually be removed.</p>
 <h2><a class="anchor" name="advanced-api"></a>Advanced API <a class="hash-link" href="#advanced-api">#</a></h2>
 <p>The above print methods use <code>Perf.getLastMeasurements()</code> to pretty-print the result.</p>
 <h3><a class="anchor" name="perf.getlastmeasurements"></a><code>Perf.getLastMeasurements()</code> <a class="hash-link" href="#perf.getlastmeasurements">#</a></h3>
