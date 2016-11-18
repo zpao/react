@@ -1,14 +1,16 @@
+
+
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Blog | React</title>
-  <meta name="viewport" content="width=device-width">
-  <meta property="og:title" content="Blog | React">
+  <title>Blog - React</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Blog - React">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://facebook.github.io/react/blog/page7/index.html">
+  <meta property="og:url" content="https://facebook.github.io/react/blog/page7/">
   <meta property="og:image" content="https://facebook.github.io/react/img/logo_og.png">
   <meta property="og:description" content="A JavaScript library for building user interfaces">
   <meta property="fb:app_id" content="623268441017527">
@@ -32,9 +34,11 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
   <script src="/react/js/codemirror.js"></script>
   <script src="/react/js/javascript.js"></script>
+  <script src="/react/js/xml.js"></script>
+  <script src="/react/js/jsx.js"></script>
   <script src="/react/js/react.js"></script>
   <script src="/react/js/react-dom.js"></script>
-  <script src="/react/js/babel-browser.min.js"></script>
+  <script src="/react/js/babel.min.js"></script>
   <script src="/react/js/live_editor.js"></script>
 </head>
 <body>
@@ -42,29 +46,29 @@
   <div class="container">
 
     <div class="nav-main">
-      <div class="wrap">
-        <a class="nav-home" href="/react/index.html">
-          <img class="nav-logo" src="/react/img/logo.svg" width="36" height="36">
-          React
-        </a>
-        <ul class="nav-site nav-site-internal">
-          <li><a href="/react/docs/getting-started.html">Docs</a></li>
-          <li><a href="/react/support.html">Support</a></li>
-          <li><a href="/react/downloads.html">Download</a></li>
-          <li><a href="/react/blog/" class="active">Blog</a></li>
-          <li>
-            <input id="algolia-doc-search" type="text" placeholder="Search docs..." />
-          </li>
-        </ul>
-
-        <ul class="nav-site nav-site-external">
-          <li><a href="https://github.com/facebook/react">GitHub</a></li>
-          <li><a href="https://facebook.github.io/react-native/">React Native</a></li>
-        </ul>
-      </div>
+  <div class="wrap">
+    <a class="nav-home" href="/react/">
+      <img class="nav-logo" src="/react/img/logo.svg" width="36" height="36">
+      React
+    </a>
+    <div class="nav-lists">
+      <ul class="nav-site nav-site-internal">
+        <li><a href="/react/docs/hello-world.html">Docs</a></li>
+        <li><a href="/react/tutorial/tutorial.html">Tutorial</a></li>
+        <li><a href="/react/community/support.html">Community</a></li>
+        <li><a href="/react/blog/" class="active">Blog</a></li>
+        <li class="nav-site-search">
+          <input id="algolia-doc-search" type="text" placeholder="Search docs..." />
+        </li>
+      </ul>
+      <ul class="nav-site nav-site-external">
+        <li><a href="https://github.com/facebook/react">GitHub</a></li>
+        <li><a href="https://github.com/facebook/react/releases">v16.0.0-alpha</a></li>
+      </ul>
     </div>
+  </div>
+</div>
 
-    
 
     <section class="content wrap blogContent">
   <div class="nav-docs nav-blog">
@@ -72,25 +76,25 @@
     <h3>Recent posts</h3>
     <ul>
       
+        <li><a href="/react/blog/2016/11/16/react-v15.4.0.html">React v15.4.0</a></li>
+      
+        <li><a href="/react/blog/2016/09/28/our-first-50000-stars.html">Our First 50,000 Stars</a></li>
+      
+        <li><a href="/react/blog/2016/08/05/relay-state-of-the-state.html">Relay: State of the State</a></li>
+      
+        <li><a href="/react/blog/2016/07/22/create-apps-with-no-configuration.html">Create Apps with No Configuration</a></li>
+      
+        <li><a href="/react/blog/2016/07/13/mixins-considered-harmful.html">Mixins Considered Harmful</a></li>
+      
+        <li><a href="/react/blog/2016/07/11/introducing-reacts-error-code-system.html">Introducing React's Error Code System</a></li>
+      
+        <li><a href="/react/blog/2016/04/08/react-v15.0.1.html">React v15.0.1</a></li>
+      
+        <li><a href="/react/blog/2016/04/07/react-v15.html">React v15.0</a></li>
+      
+        <li><a href="/react/blog/2016/03/29/react-v0.14.8.html">React v0.14.8</a></li>
+      
         <li><a href="/react/blog/2016/03/16/react-v15-rc2.html">React v15.0 Release Candidate 2</a></li>
-      
-        <li><a href="/react/blog/2016/03/07/react-v15-rc1.html">React v15.0 Release Candidate</a></li>
-      
-        <li><a href="/react/blog/2016/02/19/new-versioning-scheme.html">New Versioning Scheme</a></li>
-      
-        <li><a href="/react/blog/2016/01/12/discontinuing-ie8-support.html">Discontinuing IE 8 Support in React DOM</a></li>
-      
-        <li><a href="/react/blog/2016/01/08/A-implies-B-does-not-imply-B-implies-A.html">(A => B) !=> (B => A)</a></li>
-      
-        <li><a href="/react/blog/2015/12/29/react-v0.14.4.html">React v0.14.4</a></li>
-      
-        <li><a href="/react/blog/2015/12/18/react-components-elements-and-instances.html">React Components, Elements, and Instances</a></li>
-      
-        <li><a href="/react/blog/2015/12/16/ismounted-antipattern.html">isMounted is an Antipattern</a></li>
-      
-        <li><a href="/react/blog/2015/12/04/react-js-conf-2016-diversity-scholarship.html">React.js Conf 2016 Diversity Scholarship</a></li>
-      
-        <li><a href="/react/blog/2015/11/18/react-v0.14.3.html">React v0.14.3</a></li>
       
       <li><a href="/react/blog/all.html">All posts ...</a></li>
     </ul>
@@ -104,289 +108,12 @@
 
 <h1>
 
-  <a href="/react/blog/2015/03/19/building-the-facebook-news-feed-with-relay.html">Building The Facebook News Feed With Relay</a>
+  <a href="/react/blog/2015/07/03/react-v0.14-beta-1.html">React v0.14 Beta 1</a>
 
 </h1>
 
 <p class="meta">
-  March 19, 2015
-  by
-  
-    
-      <a href="https://twitter.com/en_JS">Joseph Savona</a>
-    
-    
-  
-</p>
-
-<hr>
-
-<div class="post">
-  <p>At React.js Conf in January we gave a preview of Relay, a new framework for building data-driven applications in React. In this post, we&#39;ll describe the process of creating a Relay application. This post assumes some familiarity with the concepts of Relay and GraphQL, so if you haven&#39;t already we recommend reading <a href="/react/blog/2015/02/20/introducing-relay-and-graphql.html">our introductory blog post</a> or watching <a href="https://www.youtube-nocookie.com/v/9sc8Pyc51uU">the conference talk</a>.</p>
-
-<p>We&#39;re working hard to prepare GraphQL and Relay for public release. In the meantime, we&#39;ll continue to provide information about what you can expect.</p>
-
-<p><br/></p>
-<h2><a class="anchor" name="the-relay-architecture"></a>The Relay Architecture <a class="hash-link" href="#the-relay-architecture">#</a></h2>
-<p>The diagram below shows the main parts of the Relay architecture on the client and the server:</p>
-
-<p><img src="/react/img/blog/relay-components/relay-architecture.png" alt="Relay Architecture" width="650" /></p>
-
-<p>The main pieces are as follows:</p>
-
-<ul>
-<li>Relay Components: React components annotated with declarative data descriptions.</li>
-<li>Actions: Descriptions of how data should change in response to user actions.</li>
-<li>Relay Store: A client-side data store that is fully managed by the framework.</li>
-<li>Server: An HTTP server with GraphQL endpoints (one for reads, one for writes) that respond to GraphQL queries.</li>
-</ul>
-
-<p>This post will focus on <strong>Relay components</strong> that describe encapsulated units of UI and their data dependencies. These components form the majority of a Relay application.</p>
-
-<p><br/></p>
-<h2><a class="anchor" name="a-relay-application"></a>A Relay Application <a class="hash-link" href="#a-relay-application">#</a></h2>
-<p>To see how components work and can be composed, let&#39;s implement a basic version of the Facebook News Feed in Relay. Our application will have two components: a <code>&lt;NewsFeed&gt;</code> that renders a list of <code>&lt;Story&gt;</code> items. We&#39;ll introduce the plain React version of each component first and then convert it to a Relay component. The goal is something like the following:</p>
-
-<p><img src="/react/img/blog/relay-components/sample-newsfeed.png" alt="Sample News Feed" width="360" /></p>
-
-<p><br/></p>
-<h2><a class="anchor" name="the-ltstorygt-begins"></a>The <code>&lt;Story&gt;</code> Begins <a class="hash-link" href="#the-ltstorygt-begins">#</a></h2>
-<p>The first step is a React <code>&lt;Story&gt;</code> component that accepts a <code>story</code> prop with the story&#39;s text and author information. Note that all examples uses ES6 syntax and elide presentation details to focus on the pattern of data access.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Story.react.js</span>
-<span class="kr">export</span> <span class="k">default</span> <span class="kr">class</span> <span class="nx">Story</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">story</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">story</span><span class="p">;</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">View</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">uri</span><span class="o">=</span><span class="p">{</span><span class="nx">story</span><span class="p">.</span><span class="nx">author</span><span class="p">.</span><span class="nx">profilePicture</span><span class="p">.</span><span class="nx">uri</span><span class="p">}</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">Text</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">story</span><span class="p">.</span><span class="nx">author</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
-        <span class="o">&lt;</span><span class="nx">Text</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">story</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
-      <span class="o">&lt;</span><span class="err">/View&gt;</span>
-    <span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p><br/></p>
-<h2><a class="anchor" name="whats-the-ltstorygt"></a>What&#39;s the <code>&lt;Story&gt;</code>? <a class="hash-link" href="#whats-the-ltstorygt">#</a></h2>
-<p>Relay automates the process of fetching data for components by wrapping existing React components in Relay containers (themselves React components):</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Story.react.js</span>
-<span class="kr">class</span> <span class="nx">Story</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Relay</span><span class="p">.</span><span class="nx">createContainer</span><span class="p">(</span><span class="nx">Story</span><span class="p">,</span> <span class="p">{</span>
-  <span class="nx">fragments</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">story</span><span class="o">:</span> <span class="cm">/* TODO */</span>
-  <span class="p">}</span>
-<span class="p">});</span>
-</code></pre></div>
-<p>Before adding the GraphQL fragment, let&#39;s look at the component hierarchy this creates:</p>
-
-<p><img src="/react/img/blog/relay-components/relay-containers.png" width="397" alt="React Container Data Flow" /></p>
-
-<p>Most props will be passed through from the container to the original component. However, Relay will return the query results for a prop whenever a fragment is defined. In this case we&#39;ll add a GraphQL fragment for <code>story</code>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Story.react.js</span>
-<span class="kr">class</span> <span class="nx">Story</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Relay</span><span class="p">.</span><span class="nx">createContainer</span><span class="p">(</span><span class="nx">Story</span><span class="p">,</span> <span class="p">{</span>
-  <span class="nx">fragments</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">story</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">Relay</span><span class="p">.</span><span class="nx">QL</span><span class="err">`</span>
-      <span class="nx">fragment</span> <span class="nx">on</span> <span class="nx">Story</span> <span class="p">{</span>
-        <span class="nx">author</span> <span class="p">{</span>
-          <span class="nx">name</span>
-          <span class="nx">profilePicture</span> <span class="p">{</span>
-            <span class="nx">uri</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="nx">text</span>
-      <span class="p">}</span>
-    <span class="err">`</span><span class="p">,</span>
-  <span class="p">},</span>
-<span class="p">});</span>
-</code></pre></div>
-<p>Queries use ES6 template literals tagged with the <code>Relay.QL</code> function. Similar to how JSX transpiles to plain JavaScript objects and function calls, these template literals transpile to plain objects that describe fragments. Note that the fragment&#39;s structure closely matches the object structure that we expected in <code>&lt;Story&gt;</code>&#39;s render function.</p>
-
-<p><br/></p>
-<h2><a class="anchor" name="ltstorygts-on-demand"></a><code>&lt;Story&gt;</code>s on Demand <a class="hash-link" href="#ltstorygts-on-demand">#</a></h2>
-<p>We can render a Relay component by providing Relay with the component (<code>&lt;Story&gt;</code>) and the ID of the data (a story ID). Given this information, Relay will first fetch the results of the query and then <code>render()</code> the component. The value of <code>props.story</code> will be a plain JavaScript object such as the following:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
-  <span class="nx">author</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Greg&quot;</span><span class="p">,</span>
-    <span class="nx">profilePicture</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">uri</span><span class="o">:</span> <span class="s2">&quot;https://…&quot;</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;The first Relay blog post is up…&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Relay guarantees that all data required to render a component will be available before it is rendered. This means that <code>&lt;Story&gt;</code> does not need to handle a loading state; the <code>story</code> is <em>guaranteed</em> to be available before <code>render()</code> is called. We have found that this invariant simplifies our application code <em>and</em> improves the user experience. Of course, Relay also has options to delay the fetching of some parts of our queries.</p>
-
-<p>The diagram below shows how Relay containers make data available to our React components:</p>
-
-<p><img src="/react/img/blog/relay-components/relay-containers-data-flow.png" width="650" alt="Relay Container Data Flow" /></p>
-
-<p><br/></p>
-<h2><a class="anchor" name="ltnewsfeedgt-worthy"></a><code>&lt;NewsFeed&gt;</code> Worthy <a class="hash-link" href="#ltnewsfeedgt-worthy">#</a></h2>
-<p>Now that the <code>&lt;Story&gt;</code> is over we can continue with the <code>&lt;NewsFeed&gt;</code> component. Again, we&#39;ll start with a React version:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// NewsFeed.react.js</span>
-<span class="kr">class</span> <span class="nx">NewsFeed</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">stories</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">viewer</span><span class="p">.</span><span class="nx">stories</span><span class="p">;</span> <span class="c1">// `viewer` is the active user</span>
-    <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">View</span><span class="o">&gt;</span>
-        <span class="p">{</span><span class="nx">stories</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">story</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Story</span> <span class="nx">story</span><span class="o">=</span><span class="p">{</span><span class="nx">story</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">)}</span>
-        <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">loadMore</span><span class="p">()}</span><span class="o">&gt;</span><span class="nx">Load</span> <span class="nx">More</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
-      <span class="o">&lt;</span><span class="err">/View&gt;</span>
-    <span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="nx">loadMore</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// TODO: fetch more stories</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">NewsFeed</span><span class="p">;</span>
-</code></pre></div>
-<p><br/></p>
-<h2><a class="anchor" name="all-the-news-fit-to-be-relayed"></a>All the News Fit to be Relayed <a class="hash-link" href="#all-the-news-fit-to-be-relayed">#</a></h2>
-<p><code>&lt;NewsFeed&gt;</code> has two new requirements: it composes <code>&lt;Story&gt;</code> and requests more data at runtime.</p>
-
-<p>Just as React views can be nested, Relay components can compose query fragments from child components. Composition in GraphQL uses ES6 template literal substitution: <code>${Component.getFragment(&#39;prop&#39;)}</code>. Pagination can be accomplished with a variable, specified with <code>$variable</code> (as in <code>stories(first: $count)</code>):</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// NewsFeed.react.js</span>
-<span class="kr">class</span> <span class="nx">NewsFeed</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Relay</span><span class="p">.</span><span class="nx">createContainer</span><span class="p">(</span><span class="nx">NewsFeed</span><span class="p">,</span> <span class="p">{</span>
-  <span class="nx">initialVariables</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">count</span><span class="o">:</span> <span class="mi">3</span>                                <span class="cm">/* default to 3 stories */</span>
-  <span class="p">},</span>
-  <span class="nx">fragments</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">viewer</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">Relay</span><span class="p">.</span><span class="nx">QL</span><span class="err">`</span>
-      <span class="nx">fragment</span> <span class="nx">on</span> <span class="nx">Viewer</span> <span class="p">{</span>
-        <span class="nx">stories</span><span class="p">(</span><span class="nx">first</span><span class="o">:</span> <span class="nx">$count</span><span class="p">)</span> <span class="p">{</span>            <span class="cm">/* fetch viewer&#39;s stories */</span>
-          <span class="nx">edges</span> <span class="p">{</span>                           <span class="cm">/* traverse the graph */</span>
-            <span class="nx">node</span> <span class="p">{</span>
-              <span class="nx">$</span><span class="p">{</span><span class="nx">Story</span><span class="p">.</span><span class="nx">getFragment</span><span class="p">(</span><span class="s1">&#39;story&#39;</span><span class="p">)}</span> <span class="cm">/* compose child fragment */</span>
-            <span class="p">}</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="err">`</span><span class="p">,</span>
-  <span class="p">},</span>
-<span class="p">});</span>
-</code></pre></div>
-<p>Whenever <code>&lt;NewsFeed&gt;</code> is rendered, Relay will recursively expand all the composed fragments and fetch the queries in a single trip to the server. In this case, the <code>text</code> and <code>author</code> data will be fetched for each of the 3 story nodes.</p>
-
-<p>Query variables are available to components as <code>props.relay.variables</code> and can be modified with <code>props.relay.setVariables(nextVariables)</code>. We can use these to implement pagination:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// NewsFeed.react.js</span>
-<span class="kr">class</span> <span class="nx">NewsFeed</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
-
-  <span class="nx">loadMore</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// read current params</span>
-    <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">relay</span><span class="p">.</span><span class="nx">variables</span><span class="p">.</span><span class="nx">count</span><span class="p">;</span>
-    <span class="c1">// update params</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">relay</span><span class="p">.</span><span class="nx">setVariables</span><span class="p">({</span>
-      <span class="nx">count</span><span class="o">:</span> <span class="nx">count</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span>
-    <span class="p">});</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Now when <code>loadMore()</code> is called, Relay will send a GraphQL request for the additional five stories. When these stories are fetched, the component will re-render with the new stories available in <code>props.viewer.stories</code> and the updated count reflected in <code>props.relay.variables.count</code>.</p>
-
-<p><br/></p>
-<h2><a class="anchor" name="in-conclusion"></a>In Conclusion <a class="hash-link" href="#in-conclusion">#</a></h2>
-<p>These two components form a solid core for our application. With the use of Relay containers and GraphQL queries, we&#39;ve enabled the following benefits:</p>
-
-<ul>
-<li>Automatic and efficient pre-fetching of data for an entire view hierarchy in a single network request.</li>
-<li>Trivial pagination with automatic optimizations to fetch only the additional items.</li>
-<li>View composition and reusability, so that <code>&lt;Story&gt;</code> can be used on its own or within <code>&lt;NewsFeed&gt;</code>, without any changes to either component.</li>
-<li>Automatic subscriptions, so that components will re-render if their data changes. Unaffected components will not re-render unnecessarily.</li>
-<li>Exactly <em>zero</em> lines of imperative data fetching logic. Relay takes full advantage of React&#39;s declarative component model.</li>
-</ul>
-
-<p>But Relay has many more tricks up its sleeve. For example, it&#39;s built from the start to handle reads and writes, allowing for features like optimistic client updates with transactional rollback. Relay can also defer fetching select parts of queries, and it uses a local data store to avoid fetching the same data twice. These are all powerful features that we hope to explore in future posts.</p>
-
-</div>
-
-
-
-      </div>
-    
-      <div class="post-list-item">
-        
-
-<h1>
-
-  <a href="/react/blog/2015/03/16/react-v0.13.1.html">React v0.13.1</a>
-
-</h1>
-
-<p class="meta">
-  March 16, 2015
-  by
-  
-    
-      <a href="https://twitter.com/zpao">Paul O’Shannessy</a>
-    
-    
-  
-</p>
-
-<hr>
-
-<div class="post">
-  <p>It&#39;s been less than a week since we shipped v0.13.0 but it&#39;s time to do another quick release. We just released v0.13.1 which contains bugfixes for a number of small issues.</p>
-
-<p>Thanks all of you who have been upgrading your applications and taking the time to report issues. And a huge thank you to those of you who submitted pull requests for the issues you found! 2 of the 6 fixes that went out today came from people who aren&#39;t on the core team!</p>
-
-<p>The release is now available for download:</p>
-
-<ul>
-<li><strong>React</strong><br>
-Dev build with warnings: <a href="https://fb.me/react-0.13.1.js">https://fb.me/react-0.13.1.js</a><br>
-Minified build for production: <a href="https://fb.me/react-0.13.1.min.js">https://fb.me/react-0.13.1.min.js</a><br></li>
-<li><strong>React with Add-Ons</strong><br>
-Dev build with warnings: <a href="https://fb.me/react-with-addons-0.13.1.js">https://fb.me/react-with-addons-0.13.1.js</a><br>
-Minified build for production: <a href="https://fb.me/react-with-addons-0.13.1.min.js">https://fb.me/react-with-addons-0.13.1.min.js</a><br></li>
-<li><strong>In-Browser JSX transformer</strong><br>
-<a href="https://fb.me/JSXTransformer-0.13.1.js">https://fb.me/JSXTransformer-0.13.1.js</a></li>
-</ul>
-
-<p>We&#39;ve also published version <code>0.13.1</code> of the <code>react</code> and <code>react-tools</code> packages on npm and the <code>react</code> package on bower.</p>
-
-<hr>
-<h2><a class="anchor" name="changelog"></a>Changelog <a class="hash-link" href="#changelog">#</a></h2><h3><a class="anchor" name="react-core"></a>React Core <a class="hash-link" href="#react-core">#</a></h3><h4><a class="anchor" name="bug-fixes"></a>Bug Fixes <a class="hash-link" href="#bug-fixes">#</a></h4>
-<ul>
-<li>Don&#39;t throw when rendering empty <code>&lt;select&gt;</code> elements</li>
-<li>Ensure updating <code>style</code> works when transitioning from <code>null</code></li>
-</ul>
-<h3><a class="anchor" name="react-with-add-ons"></a>React with Add-Ons <a class="hash-link" href="#react-with-add-ons">#</a></h3><h3><a class="anchor" name="bug-fixes"></a>Bug Fixes <a class="hash-link" href="#bug-fixes">#</a></h3>
-<ul>
-<li>TestUtils: Don&#39;t warn about <code>getDOMNode</code> for ES6 classes</li>
-<li>TestUtils: Ensure wrapped full page components (<code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>) are treated as DOM components</li>
-<li>Perf: Stop double-counting DOM components</li>
-</ul>
-<h3><a class="anchor" name="react-tools"></a>React Tools <a class="hash-link" href="#react-tools">#</a></h3><h4><a class="anchor" name="bug-fixes"></a>Bug Fixes <a class="hash-link" href="#bug-fixes">#</a></h4>
-<ul>
-<li>Fix option parsing for <code>--non-strict-es6module</code></li>
-</ul>
-
-</div>
-
-
-
-      </div>
-    
-      <div class="post-list-item">
-        
-
-<h1>
-
-  <a href="/react/blog/2015/03/10/react-v0.13.html">React v0.13</a>
-
-</h1>
-
-<p class="meta">
-  March 10, 2015
+  July  3, 2015
   by
   
     
@@ -399,83 +126,224 @@ Minified build for production: <a href="https://fb.me/react-with-addons-0.13.1.m
 <hr>
 
 <div class="post">
-  <p>Today, we&#39;re happy to release React v0.13!</p>
+  <p>This week, many people in the React community are at <a href="https://www.react-europe.org/">ReactEurope</a> in the beautiful (and very warm) city of Paris, the second React conference that&#39;s been held to date. At our last conference, we released the first beta of React 0.13, and we figured we&#39;d do the same today with our first beta of React 0.14, giving you something to play with if you&#39;re not at the conference or you&#39;re looking for something to do on the way home.</p>
 
-<p>The most notable new feature is <a href="/react/blog/2015/01/27/react-v0.13.0-beta-1.html">support for ES6 classes</a>, which allows developers to have more flexibility when writing components. Our eventual goal is for ES6 classes to replace <code>React.createClass</code> completely, but until we have a replacement for current mixin use cases and support for class property initializers in the language, we don&#39;t plan to deprecate <code>React.createClass</code>.</p>
+<p>With React 0.14, we&#39;re continuing to let React mature and to make minor changes as the APIs continue to settle down. I&#39;ll talk only about the two largest changes in this blog post; when we publish the final release we&#39;ll be sure to update all of our documentation and include a full changelog.</p>
 
-<p>At EmberConf and ng-conf last week, we were excited to see that Ember and Angular have been working on speed improvements and now both have performance comparable to React. We&#39;ve always thought that performance isn&#39;t the most important reason to choose React, but we&#39;re still planning more optimizations to <strong>make React even faster</strong>.</p>
+<p>You can install the new beta with <code>npm install react@0.14.0-beta1</code> and <code>npm install react-dom@0.14.0-beta1</code>. As mentioned in <a href="https://facebook.github.io/react/blog/2015/06/12/deprecating-jstransform-and-react-tools.html">Deprecating react-tools</a>, we&#39;re no longer updating the react-tools package so this release doesn&#39;t include a new version of it. Please try the new version out and let us know what you think, and please do file issues on our GitHub repo if you run into any problems.</p>
+<h2><a class="anchor" name="two-packages"></a>Two Packages <a class="hash-link" href="#two-packages">#</a></h2>
+<p>As we look at packages like <a href="https://github.com/facebook/react-native">react-native</a>, <a href="https://github.com/reactjs/react-art">react-art</a>, <a href="https://github.com/Flipboard/react-canvas">react-canvas</a>, and <a href="https://github.com/Izzimach/react-three">react-three</a>, it&#39;s become clear that the beauty and essence of React has nothing to do with browsers or the DOM.</p>
 
-<p>Our planned optimizations require that ReactElement objects are immutable, which has always been a best practice when writing idiomatic React code. In this release, we&#39;ve added runtime warnings that fire when props are changed or added between the time an element is created and when it&#39;s rendered. When migrating your code, you may want to use new <code>React.cloneElement</code> API (which is similar to <code>React.addons.cloneWithProps</code> but preserves <code>key</code> and <code>ref</code> and does not merge <code>style</code> or <code>className</code> automatically). For more information about our planned optimizations, see GitHub issues
-<a href="https://github.com/facebook/react/issues/3226">#3226</a>,
-<a href="https://github.com/facebook/react/issues/3227">#3227</a>,
-<a href="https://github.com/facebook/react/issues/3228">#3228</a>.</p>
+<p>We think the true foundations of React are simply ideas of components and elements: being able to describe what you want to render in a declarative way. These are the pieces shared by all of these different packages. The parts of React specific to certain rendering targets aren&#39;t usually what we think of when we think of React. As one example, DOM diffing currently enables us to build React for the browser and make it fast enough to be useful, but if the DOM didn&#39;t have a stateful, imperative API, we might not need diffing at all.</p>
+
+<p>To make this more clear and to make it easier to build more environments that React can render to, we&#39;re splitting the main <code>react</code> package into two: <code>react</code> and <code>react-dom</code>.</p>
+
+<p>The <code>react</code> package contains <code>React.createElement</code>, <code>React.createClass</code> and <code>React.Component</code>, <code>React.PropTypes</code>, <code>React.Children</code>, and the other helpers related to elements and component classes. We think of these as the <a href="http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/"><em>isomorphic</em></a> or <a href="https://medium.com/@mjackson/universal-javascript-4761051b7ae9"><em>universal</em></a> helpers that you need to build components.</p>
+
+<p>The <code>react-dom</code> package contains <code>ReactDOM.render</code>, <code>ReactDOM.unmountComponentAtNode</code>, and <code>ReactDOM.findDOMNode</code>, and in <code>react-dom/server</code> we have server-side rendering support with <code>ReactDOMServer.renderToString</code> and <code>ReactDOMServer.renderToStaticMarkup</code>.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;react&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ReactDOM</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;react-dom&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">MyComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="nx">World</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">MyComponent</span> <span class="o">/&gt;</span><span class="p">,</span> <span class="nx">node</span><span class="p">);</span>
+</code></pre></div>
+<p>We anticipate that most components will need to depend only on the <code>react</code> package, which is lightweight and doesn&#39;t include any of the actual rendering logic. To start, we expect people to render DOM-based components with our <code>react-dom</code> package, but there&#39;s nothing stopping someone from diving deep on performance and writing a <code>awesome-faster-react-dom</code> package which can render <em>the exact same DOM-based components</em>. By decoupling the component definitions from the rendering, this becomes possible.</p>
+
+<p>More importantly, this paves the way to writing components that can be shared between the web version of React and React Native. This isn&#39;t yet easily possible, but we intend to make this easy in a future version so you can share React code between your website and native apps.</p>
+
+<p>The addons have moved to separate packages as well: <code>react-addons-clone-with-props</code>, <code>react-addons-create-fragment</code>, <code>react-addons-css-transition-group</code>, <code>react-addons-linked-state-mixin</code>, <code>react-addons-pure-render-mixin</code>, <code>react-addons-shallow-compare</code>, <code>react-addons-transition-group</code>, and <code>react-addons-update</code>, plus <code>ReactDOM.unstable_batchedUpdates</code> in <code>react-dom</code>.</p>
+
+<p>For now, please use the same version of <code>react</code> and <code>react-dom</code> in your apps to avoid versioning problems -- but we plan to remove this requirement later. (This release includes the old methods in the <code>react</code> package with a deprecation warning, but they&#39;ll be removed completely in 0.15.)</p>
+<h2><a class="anchor" name="dom-node-refs"></a>DOM node refs <a class="hash-link" href="#dom-node-refs">#</a></h2>
+<p>The other big change we&#39;re making in this release is exposing refs to DOM components as the DOM node itself. That means: we looked at what you can do with a <code>ref</code> to a DOM component and realized that the only useful thing you can do with it is call <code>this.refs.giraffe.getDOMNode()</code> to get the underlying DOM node. In this release, <code>this.refs.giraffe</code> <em>is</em> the actual DOM node.</p>
+
+<p>Refs to custom component classes work exactly as before.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">Zoo</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="nx">Giraffe</span><span class="err">&#39;</span><span class="nx">s</span> <span class="nx">name</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">ref</span><span class="o">=</span><span class="s2">&quot;giraffe&quot;</span> <span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">showName</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Previously:</span>
+    <span class="c1">// var input = this.refs.giraffe.getDOMNode();</span>
+    <span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">refs</span><span class="p">.</span><span class="nx">giraffe</span><span class="p">;</span>
+
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">input</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>This change also applies to the return result of <code>ReactDOM.render</code> when passing a DOM node as the top component. As with refs, this change does not affect custom components (eg. <code>&lt;MyFancyMenu&gt;</code> or <code>&lt;MyContextProvider&gt;</code>), which remain unaffected by this change.</p>
+
+<p>Along with this change, we&#39;re also replacing <code>component.getDOMNode()</code> with <code>ReactDOM.findDOMNode(component)</code>. The <code>findDOMNode</code> method drills down to find which DOM node was rendered by a component, but it returns its argument when passed a DOM node so it&#39;s safe to call on a DOM component too. We introduced this function quietly in the last release, but now we&#39;re deprecating <code>.getDOMNode()</code> completely: it should be easy to change all existing calls in your code to be <code>ReactDOM.findDOMNode</code>. We also have an <a href="https://www.npmjs.com/package/react-codemod">automated codemod script</a> to help you with this transition. Note that the <code>findDOMNode</code> calls are unnecessary when you already have a DOM component ref (as in the example above), so you can (and should) skip them in most cases going forward.</p>
+
+<p>We hope you&#39;re as excited about this release as we are! Let us know what you think of it.</p>
+
+</div>
+
+
+
+      </div>
+    
+      <div class="post-list-item">
+        
+
+<h1>
+
+  <a href="/react/blog/2015/06/12/deprecating-jstransform-and-react-tools.html">Deprecating JSTransform and react-tools</a>
+
+</h1>
+
+<p class="meta">
+  June 12, 2015
+  by
+  
+    
+      <a href="https://twitter.com/zpao">Paul O’Shannessy</a>
+    
+    
+  
+</p>
+
+<hr>
+
+<div class="post">
+  <p>Today we&#39;re announcing the deprecation of react-tools and JSTransform.</p>
+
+<p>As many people have noticed already, React and React Native have both switched their respective build systems to make use of <a href="http://babeljs.io/">Babel</a>. This replaced <a href="https://github.com/facebook/jstransform">JSTransform</a>, the source transformation tool that we wrote at Facebook. JSTransform has been really good for us over the past several years, however as the JavaScript language continues to evolve, the architecture we used has begun to show its age. We&#39;ve faced maintenance issues and lagged behind implementing new language features. Last year, Babel (previously 6to5) exploded onto the scene, implementing new features at an amazing pace. Since then it has evolved a solid plugin API, and implemented some of our non-standard language features (JSX and Flow type annotations).</p>
+
+<p>react-tools has always been a very thin wrapper around JSTransform. It has served as a great tool for the community to get up and running, but at this point we&#39;re ready to <a href="https://www.youtube.com/watch?v=moSFlvxnbgk">let it go</a>. We won&#39;t ship a new version for v0.14.</p>
+<h2><a class="anchor" name="migrating-to-babel"></a>Migrating to Babel <a class="hash-link" href="#migrating-to-babel">#</a></h2>
+<p>Many people in the React and broader JavaScript community have already adopted Babel. It has <a href="http://babeljs.io/docs/setup/">integrations with a number of tools</a>. Depending on your tool, you&#39;ll want to read up on the instructions.</p>
+
+<p>We&#39;ve been working with the Babel team as we started making use of it and we&#39;re confident that it will be the right tool to use with React.</p>
+<h2><a class="anchor" name="other-deprecations"></a>Other Deprecations <a class="hash-link" href="#other-deprecations">#</a></h2><h3><a class="anchor" name="esprima-fb"></a>esprima-fb <a class="hash-link" href="#esprima-fb">#</a></h3>
+<p>As a result of no longer maintaining JSTransform, we no longer have a need to maintain our Esprima fork (<a href="https://github.com/facebook/esprima/">esprima-fb</a>). The upstream Esprima and other esprima-based forks, like Espree, have been doing an excellent job of supporting new language features recently. If you have a need of an esprima-based parser, we encourage you to look into using one of those.</p>
+
+<p>Alternatively, if you need to parse JSX, take a look at <a href="https://github.com/marijnh/acorn">acorn</a> parser in combination with <a href="https://github.com/RReverser/acorn-jsx">acorn-jsx</a> plugin which is used inside of Babel and thus always supports the latest syntax.</p>
+<h3><a class="anchor" name="jsxtransformer"></a>JSXTransformer <a class="hash-link" href="#jsxtransformer">#</a></h3>
+<p>JSXTransformer is another tool we built specifically for consuming JSX in the browser. It was always intended as a quick way to prototype code before setting up a build process. It would look for <code>&lt;script&gt;</code> tags with <code>type=&quot;text/jsx&quot;</code> and then transform and run. This ran the same code that react-tools ran on the server. Babel ships with <a href="https://babeljs.io/docs/usage/browser/">a nearly identical tool</a>, which has already been integrated into <a href="https://jsbin.com/">JS Bin</a>.</p>
+
+<p>We&#39;ll be deprecating JSXTransformer, however the current version will still be available from various CDNs and Bower.</p>
+
+</div>
+
+
+
+      </div>
+    
+      <div class="post-list-item">
+        
+
+<h1>
+
+  <a href="/react/blog/2015/05/22/react-native-release-process.html">React Native Release Process</a>
+
+</h1>
+
+<p class="meta">
+  May 22, 2015
+  by
+  
+    
+      <a href="https://twitter.com/vjeux">Vjeux</a>
+    
+    
+  
+</p>
+
+<hr>
+
+<div class="post">
+  <p>The React Native release process have been a bit chaotic since we open sourced. It was unclear when new code was released, there was no changelog, we bumped the minor and patch version inconsistently and we often had to submit updates right after a release to fix a bad bug. In order to <em>move fast with stable infra</em>, we are introducing a real release process with a two-week release schedule.</p>
+
+<p>To explain how it works, let me walk you through an example. Today, Friday, we took the current state of master and put it on the 0.5-stable branch. We <a href="https://github.com/facebook/react-native/releases/tag/v0.5.0-rc">published 0.5.0-rc</a>, an RC (Release Candidate) when we cut the branch. For two weeks, we&#39;re going to let it stabilize and only cherry-pick critical bug fixes from master.</p>
+
+<p>Friday in two weeks, we&#39;re going to publish the 0.5.0 release, create the 0.6-stable branch and publish 0.6.0-rc as well.</p>
+
+<p>The release process is synchronized with Facebook&#39;s mobile release process. This means that everything in the open source release is also being shipped as part of all the Facebook apps that use React Native!</p>
+
+<p>You now have three ways to get React Native. You should chose the one you want based on the amount of risk you tolerate:</p>
+
+<ul>
+<li><strong>master</strong>: You have updates as soon as they are committed. This is if you want to live on the bleeding edge or want to submit pull requests.</li>
+<li><strong>rc</strong>: If you don&#39;t want to update every day and deal with many instabilities but want to have recent updates, this is your best shot.</li>
+<li><strong>release</strong>: This is the most stable version we offer. The trade-off is that it contains commits that are up to a month old.</li>
+</ul>
+
+<p>If you want more details, I highly recommend this video that explains how Facebook mobile release process works and why it was setup this way.</p>
+
+<iframe width="100%" height="300" src="https://www.youtube.com/embed/mOyoTUETmSM" frameborder="0" allowfullscreen></iframe>
+
+</div>
+
+
+
+      </div>
+    
+      <div class="post-list-item">
+        
+
+<h1>
+
+  <a href="/react/blog/2015/05/08/react-v0.13.3.html">React v0.13.3</a>
+
+</h1>
+
+<p class="meta">
+  May  8, 2015
+  by
+  
+    
+      <a href="https://twitter.com/zpao">Paul O’Shannessy</a>
+    
+    
+  
+</p>
+
+<hr>
+
+<div class="post">
+  <p>Today we&#39;re sharing another patch release in the v0.13 branch. There are only a few small changes, with a couple to address some issues that arose around that undocumented feature so many of you are already using: <code>context</code>. We also improved developer ergonomics just a little bit, making some warnings better.</p>
 
 <p>The release is now available for download:</p>
 
 <ul>
 <li><strong>React</strong><br>
-Dev build with warnings: <a href="https://fb.me/react-0.13.0.js">https://fb.me/react-0.13.0.js</a><br>
-Minified build for production: <a href="https://fb.me/react-0.13.0.min.js">https://fb.me/react-0.13.0.min.js</a><br></li>
+Dev build with warnings: <a href="https://fb.me/react-0.13.3.js">https://fb.me/react-0.13.3.js</a><br>
+Minified build for production: <a href="https://fb.me/react-0.13.3.min.js">https://fb.me/react-0.13.3.min.js</a><br></li>
 <li><strong>React with Add-Ons</strong><br>
-Dev build with warnings: <a href="https://fb.me/react-with-addons-0.13.0.js">https://fb.me/react-with-addons-0.13.0.js</a><br>
-Minified build for production: <a href="https://fb.me/react-with-addons-0.13.0.min.js">https://fb.me/react-with-addons-0.13.0.min.js</a><br></li>
+Dev build with warnings: <a href="https://fb.me/react-with-addons-0.13.3.js">https://fb.me/react-with-addons-0.13.3.js</a><br>
+Minified build for production: <a href="https://fb.me/react-with-addons-0.13.3.min.js">https://fb.me/react-with-addons-0.13.3.min.js</a><br></li>
 <li><strong>In-Browser JSX transformer</strong><br>
-<a href="https://fb.me/JSXTransformer-0.13.0.js">https://fb.me/JSXTransformer-0.13.0.js</a></li>
+<a href="https://fb.me/JSXTransformer-0.13.3.js">https://fb.me/JSXTransformer-0.13.3.js</a></li>
 </ul>
 
-<p>We&#39;ve also published version <code>0.13.0</code> of the <code>react</code> and <code>react-tools</code> packages on npm and the <code>react</code> package on bower.</p>
+<p>We&#39;ve also published version <code>0.13.3</code> of the <code>react</code> and <code>react-tools</code> packages on npm and the <code>react</code> package on bower.</p>
 
 <hr>
-<h2><a class="anchor" name="changelog"></a>Changelog <a class="hash-link" href="#changelog">#</a></h2><h3><a class="anchor" name="react-core"></a>React Core <a class="hash-link" href="#react-core">#</a></h3><h4><a class="anchor" name="breaking-changes"></a>Breaking Changes <a class="hash-link" href="#breaking-changes">#</a></h4>
+<h2><a class="anchor" name="changelog"></a>Changelog <a class="hash-link" href="#changelog">#</a></h2><h3><a class="anchor" name="react-core"></a>React Core <a class="hash-link" href="#react-core">#</a></h3><h4><a class="anchor" name="new-features"></a>New Features <a class="hash-link" href="#new-features">#</a></h4>
 <ul>
-<li>Deprecated patterns that warned in 0.12 no longer work: most prominently, calling component classes without using JSX or React.createElement and using non-component functions with JSX or createElement</li>
-<li>Mutating <code>props</code> after an element is created is deprecated and will cause warnings in development mode; future versions of React will incorporate performance optimizations assuming that props aren&#39;t mutated</li>
-<li>Static methods (defined in <code>statics</code>) are no longer autobound to the component class</li>
-<li><code>ref</code> resolution order has changed slightly such that a ref to a component is available immediately after its <code>componentDidMount</code> method is called; this change should be observable only if your component calls a parent component&#39;s callback within your <code>componentDidMount</code>, which is an anti-pattern and should be avoided regardless</li>
-<li>Calls to <code>setState</code> in life-cycle methods are now always batched and therefore asynchronous. Previously the first call on the first mount was synchronous.</li>
-<li><code>setState</code> and <code>forceUpdate</code> on an unmounted component now warns instead of throwing. That avoids a possible race condition with Promises.</li>
-<li>Access to most internal properties has been completely removed, including <code>this._pendingState</code> and <code>this._rootNodeID</code>.</li>
+<li>Added <code>clipPath</code> element and attribute for SVG</li>
+<li>Improved warnings for deprecated methods in plain JS classes</li>
 </ul>
-<h4><a class="anchor" name="new-features"></a>New Features <a class="hash-link" href="#new-features">#</a></h4>
+<h4><a class="anchor" name="bug-fixes"></a>Bug Fixes <a class="hash-link" href="#bug-fixes">#</a></h4>
 <ul>
-<li>Support for using ES6 classes to build React components; see the <a href="/react/blog/2015/01/27/react-v0.13.0-beta-1.html">v0.13.0 beta 1 notes</a> for details.</li>
-<li>Added new top-level API <code>React.findDOMNode(component)</code>, which should be used in place of <code>component.getDOMNode()</code>. The base class for ES6-based components will not have <code>getDOMNode</code>. This change will enable some more patterns moving forward.</li>
-<li>Added a new top-level API <code>React.cloneElement(el, props)</code> for making copies of React elements – see the <a href="/react/blog/2015/03/03/react-v0.13-rc2.html#react.cloneelement">v0.13 RC2 notes</a> for more details.</li>
-<li>New <code>ref</code> style, allowing a callback to be used in place of a name: <code>&lt;Photo ref={(c) =&gt; this._photo = c} /&gt;</code> allows you to reference the component with <code>this._photo</code> (as opposed to <code>ref=&quot;photo&quot;</code> which gives <code>this.refs.photo</code>).</li>
-<li><code>this.setState()</code> can now take a function as the first argument for transactional state updates, such as <code>this.setState((state, props) =&gt; ({count: state.count + 1}));</code> – this means that you no longer need to use <code>this._pendingState</code>, which is now gone.</li>
-<li>Support for iterators and immutable-js sequences as children.</li>
+<li>Loosened <code>dangerouslySetInnerHTML</code> restrictions so <code>{__html: undefined}</code> will no longer throw</li>
+<li>Fixed extraneous context warning with non-pure <code>getChildContext</code></li>
+<li>Ensure <code>replaceState(obj)</code> retains prototype of <code>obj</code></li>
 </ul>
-<h4><a class="anchor" name="deprecations"></a>Deprecations <a class="hash-link" href="#deprecations">#</a></h4>
+<h3><a class="anchor" name="react-with-add-ons"></a>React with Add-ons <a class="hash-link" href="#react-with-add-ons">#</a></h3><h3><a class="anchor" name="bug-fixes"></a>Bug Fixes <a class="hash-link" href="#bug-fixes">#</a></h3>
 <ul>
-<li><code>ComponentClass.type</code> is deprecated. Just use <code>ComponentClass</code> (usually as <code>element.type === ComponentClass</code>).</li>
-<li>Some methods that are available on <code>createClass</code>-based components are removed or deprecated from ES6 classes (<code>getDOMNode</code>, <code>replaceState</code>, <code>isMounted</code>, <code>setProps</code>, <code>replaceProps</code>).</li>
-</ul>
-<h3><a class="anchor" name="react-with-add-ons"></a>React with Add-Ons <a class="hash-link" href="#react-with-add-ons">#</a></h3><h4><a class="anchor" name="new-features"></a>New Features <a class="hash-link" href="#new-features">#</a></h4>
-<ul>
-<li><a href="/react/docs/create-fragment.html"><code>React.addons.createFragment</code> was added</a> for adding keys to entire sets of children.</li>
-</ul>
-<h4><a class="anchor" name="deprecations"></a>Deprecations <a class="hash-link" href="#deprecations">#</a></h4>
-<ul>
-<li><code>React.addons.classSet</code> is now deprecated. This functionality can be replaced with several freely available modules. <a href="https://www.npmjs.com/package/classnames">classnames</a> is one such module.</li>
-<li>Calls to <code>React.addons.cloneWithProps</code> can be migrated to use <code>React.cloneElement</code> instead – make sure to merge <code>style</code> and <code>className</code> manually if desired.</li>
-</ul>
-<h3><a class="anchor" name="react-tools"></a>React Tools <a class="hash-link" href="#react-tools">#</a></h3><h4><a class="anchor" name="breaking-changes"></a>Breaking Changes <a class="hash-link" href="#breaking-changes">#</a></h4>
-<ul>
-<li>When transforming ES6 syntax, <code>class</code> methods are no longer enumerable by default, which requires <code>Object.defineProperty</code>; if you support browsers such as IE8, you can pass <code>--target es3</code> to mirror the old behavior</li>
-</ul>
-<h4><a class="anchor" name="new-features"></a>New Features <a class="hash-link" href="#new-features">#</a></h4>
-<ul>
-<li><code>--target</code> option is available on the jsx command, allowing users to specify and ECMAScript version to target.
-
-<ul>
-<li><code>es5</code> is the default.</li>
-<li><code>es3</code> restores the previous default behavior. An additional transform is added here to ensure the use of reserved words as properties is safe (eg <code>this.static</code> will become <code>this[&#39;static&#39;]</code> for IE8 compatibility).</li>
-</ul></li>
-<li>The transform for the call spread operator has also been enabled.</li>
-</ul>
-<h3><a class="anchor" name="jsx"></a>JSX <a class="hash-link" href="#jsx">#</a></h3><h4><a class="anchor" name="breaking-changes"></a>Breaking Changes <a class="hash-link" href="#breaking-changes">#</a></h4>
-<ul>
-<li>A change was made to how some JSX was parsed, specifically around the use of <code>&gt;</code> or <code>}</code> when inside an element. Previously it would be treated as a string but now it will be treated as a parse error. The <a href="https://www.npmjs.com/package/jsx_orphaned_brackets_transformer"><code>jsx_orphaned_brackets_transformer</code></a> package on npm can be used to find and fix potential issues in your JSX code.</li>
+<li>Test Utils: Ensure that shallow rendering works when components define <code>contextTypes</code></li>
 </ul>
 
 </div>
@@ -489,16 +357,16 @@ Minified build for production: <a href="https://fb.me/react-with-addons-0.13.0.m
 
 <h1>
 
-  <a href="/react/blog/2015/03/04/community-roundup-25.html">Community Round-up #25</a>
+  <a href="/react/blog/2015/05/01/graphql-introduction.html">GraphQL Introduction</a>
 
 </h1>
 
 <p class="meta">
-  March  4, 2015
+  May  1, 2015
   by
   
     
-      <a href="https://github.com/matthewathome">Matthew Johnston</a>
+      <a href="https://twitter.com/schrockn">Nick Schrock</a>
     
     
   
@@ -507,132 +375,92 @@ Minified build for production: <a href="https://fb.me/react-with-addons-0.13.0.m
 <hr>
 
 <div class="post">
-  <h2><a class="anchor" name="react-101"></a>React 101 <a class="hash-link" href="#react-101">#</a></h2>
-<p>Interest in React has been exploding recently, so it&#39;s a good time to explore some great recent tutorials and videos that cover getting started.</p>
+  <p>At the React.js conference in late January 2015, we revealed our next major technology in the React family: <a href="http://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html">Relay</a>. </p>
 
-<p><a href="https://github.com/rynclark">Ryan Clark</a> provides a <a href="http://ryanclark.me/getting-started-with-react/">great overview of the basics of React</a> with the goal of building a really simple dropdown nav.</p>
+<p>Relay is a new way of structuring client applications that co-locates data-fetching requirements and React components. Instead of placing data fetching logic in some other part of the client application – or embedding this logic in a custom endpoint on the server – we instead co-locate a <em>declarative</em> data-fetching specification alongside the React component. The language of this declarative specification is GraphQL.</p>
 
-<p><a href="https://github.com/FormidableLabs">Formidable Labs</a> and <a href="http://www.meetup.com/seattlejs/">Seattle JS</a> recently hosted a series of React, Flux, and Flow workshops, and the first part is available to watch online:</p>
+<p>GraphQL was not invented to enable Relay. In fact, GraphQL predates Relay by nearly three years. It was invented during the move from Facebook&#39;s HTML5-driven mobile applications to purely native applications. It is a query language for graph data that powers the lion&#39;s share of interactions in the Facebook Android and iOS applications. Any user of the native iOS or Android app in the last two years has used an app powered by GraphQL.</p>
 
-<iframe width="650" height="300" src="//www.youtube-nocookie.com/embed/Pd6Ub7Ju2RM" frameborder="0" allowfullscreen></iframe>
+<p>We plan to open-source a reference implementation of a GraphQL server and publish a language specification in the coming months. Our goal is to evolve GraphQL to adapt to a wide range of backends, so that projects and companies can use this technology to access their own data. We believe that this is a compelling way to structure servers and to provide powerful abstractions, frameworks and tools – including, but not exclusively, Relay – for product developers.</p>
+<h2><a class="anchor" name="what-is-graphql"></a>What is GraphQL? <a class="hash-link" href="#what-is-graphql">#</a></h2>
+<p>A GraphQL query is a string interpreted by a server that returns data in a specified format. Here is an example query: </p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">{</span>
+  <span class="nx">user</span><span class="p">(</span><span class="nx">id</span><span class="o">:</span> <span class="mi">3500401</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">id</span><span class="p">,</span>
+    <span class="nx">name</span><span class="p">,</span>
+    <span class="nx">isViewerFriend</span><span class="p">,</span>
+    <span class="nx">profilePicture</span><span class="p">(</span><span class="nx">size</span><span class="o">:</span> <span class="mi">50</span><span class="p">)</span>  <span class="p">{</span>
+      <span class="nx">uri</span><span class="p">,</span>
+      <span class="nx">width</span><span class="p">,</span>
+      <span class="nx">height</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>(Note: this syntax is slightly different from previous GraphQL examples. We&#39;ve recently been making improvements to the language.)</p>
 
-<p><a href="https://github.com/aearly">AEFlash</a> writes up <a href="http://aeflash.com/2015-02/react-tips-and-best-practices.html">some best practices and tips</a> to help you avoid potential pitfalls when developing with React.</p>
-
-<p>Black Mutt Media <a href="http://blackmuttmedia.com/blog/react-tmdb-api/">takes us through their usage of React</a> and Ruby to build an autocomplete field, and some of the pitfalls they encountered along the way.</p>
-
-<p>Our own <a href="https://github.com/sebmarkbage">Sebastian Markbåge</a> was on the <a href="http://thewebplatform.libsyn.com/31-building-with-reactjs">Web Platform Podcast</a> to have a chat about all aspects of React.</p>
-
-<iframe style="border: none" src="//html5-player.libsyn.com/embed/episode/id/3370114/height/75/width/200/theme/standard-mini/direction/no/autoplay/no/autonext/no/thumbnail/yes/preload/no/no_addthis/no/" height="26" width="650" scrolling="no" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" oallowfullscreen="" msallowfullscreen=""></iframe>
-<h2><a class="anchor" name="community-additions"></a>Community Additions <a class="hash-link" href="#community-additions">#</a></h2>
-<p><a href="https://github.com/FormidableLabs">Formidable Labs</a> have been busy, as they&#39;ve also<a href="http://projects.formidablelabs.com/radium/"> just launched Radium</a>, a React component that provides you with the ability to use inline styles instead of CSS. They&#39;re also <a href="http://projects.formidablelabs.com/radium-bootstrap/">looking for some help</a> contributing to a Radium Bootstrap implementation.</p>
-
-<p><a href="http://reactiflux.com/">Reactiflux.com</a> is a new Slack community based around (you guessed it!) React, and Flux.</p>
-
-<p><a href="http://reactweek.com/">React Week</a> is a week-long learning workshop, happening next week, for React, Flux, and other related technologies, run by <a href="https://github.com/ryanflorence">Ryan Florence</a>.</p>
-
-<p><a href="https://github.com/babel/babel-sublime">Babel-sublime</a> is a new package which provides Sublime with language definitions for ES6 JavaScript with React JSX syntax extensions.</p>
-
-<p><a href="https://github.com/reactjs/react-meteor">react-meteor</a>, a package that replaces the default templating system of the Meteor platform with React, recently received a big update.</p>
-<h2><a class="anchor" name="rebuilding-with-react"></a>Rebuilding with React <a class="hash-link" href="#rebuilding-with-react">#</a></h2>
-<p><a href="https://github.com/rmanalan">Rich Manalang</a> from Atlassian <a href="https://developer.atlassian.com/blog/2015/02/rebuilding-hipchat-with-react/">explains why</a> they rebuilt their HipChat web client from scratch using React, and how they&#39;re already using it to rebuild their native desktop clients.</p>
-
-<p><a href="https://twitter.com/andyhillel">Andrew Hillel</a> of the BBC gives <a href="http://www.bbc.co.uk/blogs/internet/entries/47a96d23-ae04-444e-808f-678e6809765d">an excellent and thorough breakdown</a> of the stack they used to rebuild their homepage, with React as an integral part of the front-end.</p>
-
-<p>A team from New Zealand called <a href="https://atomic.io/">Atomic</a> is <a href="http://thenextweb.com/creativity/2015/02/19/meet-atomic-missing-tool-interface-design-thats-entirely-browser/">building web and mobile prototyping and design tools</a> entirely in-browser, and as co-founder <a href="https://twitter.com/darrylgray">Darryl Gray</a> says, “React.js “totally changed” the fact that browser performance often wasn’t good enough for complex tools like this.”.</p>
-
-<p><a href="https://github.com/Polarrco">Polarr</a> have rebuilt <a href="http://polarrist.tumblr.com/post/111290422225/polarr-photo-editor-2-0-alpha-is-here">their browser-based photo editor</a> with React.</p>
-
-<p><center><a href="http://polarrist.tumblr.com/post/111290422225/polarr-photo-editor-2-0-alpha-is-here"><img src="/react/img/blog/polarr.jpg"></a></center></p>
-<h2><a class="anchor" name="its-f8"></a>It&#39;s F8! <a class="hash-link" href="#its-f8">#</a></h2>
-<p>F8 2015 is just around the corner, and you can <a href="https://www.fbf8.com/stream.html">sign up for the video streams</a> in advance because we&#39;re sure to be covering all things React.</p>
-<h2><a class="anchor" name="meetups"></a>Meetups <a class="hash-link" href="#meetups">#</a></h2>
-<table><tr><td width="50%" valign="top">
-<blockquote class="twitter-tweet" lang="en"><p>Our <a href="https://twitter.com/reactjs">@reactjs</a> meetup is in full effect <a href="https://twitter.com/hashtag/ReactJS?src=hash">#ReactJS</a> &#10;&#10;btw bathroom code is 6012 lol <a href="http://t.co/7iUpvmm3zz">pic.twitter.com/7iUpvmm3zz</a></p>&mdash; littleBits (@littleBits) <a href="https://twitter.com/littleBits/status/570373833028472832">February 25, 2015</a></blockquote>
-</td><td width="50%" valign="top">
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/yrezgui">@yrezgui</a> captivating us with <a href="https://twitter.com/reactjs">@reactjs</a> at <a href="https://twitter.com/DevRocketUK">@DevRocketUK</a>. Thanks to the amazing sponsors <a href="https://twitter.com/makersacademy">@makersacademy</a> and <a href="https://twitter.com/couchbase">@couchbase</a>. <a href="http://t.co/xwA773omky">pic.twitter.com/xwA773omky</a></p>&mdash; James Nocentini (@jamiltz) <a href="https://twitter.com/jamiltz/status/570306188577001473">February 24, 2015</a></blockquote>
-</td></tr><tr><td width="50%" valign="top">
-<blockquote class="twitter-tweet" lang="en"><p>Listening to a bunch of very clever geekoids at the <a href="https://twitter.com/reactjs">@reactjs</a> seminar. Nice! <a href="http://t.co/0TeTOJOerO">pic.twitter.com/0TeTOJOerO</a></p>&mdash; Nick Middleweek (@nmiddleweek) <a href="https://twitter.com/nmiddleweek/status/568183658395394049">February 18, 2015</a></blockquote>
-</td><td width="50%" valign="top">
-<blockquote class="twitter-tweet" lang="en"><p>Watching the <a href="https://twitter.com/FrontendMasters">@FrontendMasters</a> ReactJS workshop! <a href="http://t.co/YraYIK97Lu">pic.twitter.com/YraYIK97Lu</a></p>&mdash; ReactJS News (@ReactJSNews) <a href="https://twitter.com/ReactJSNews/status/566269552112041985">February 13, 2015</a></blockquote>
-</td></tr></table>
-
-</div>
-
-
-
-      </div>
-    
-      <div class="post-list-item">
-        
-
-<h1>
-
-  <a href="/react/blog/2015/03/03/react-v0.13-rc2.html">React v0.13 RC2</a>
-
-</h1>
-
-<p class="meta">
-  March  3, 2015
-  by
-  
-    
-      <a href="https://twitter.com/sebmarkbage">Sebastian Markbåge</a>
-    
-    
-  
-</p>
-
-<hr>
-
-<div class="post">
-  <p>Thanks to everybody who has already been testing the release candidate. We&#39;ve received some good feedback and as a result we&#39;re going to do a second release candidate. The changes are minimal. We haven&#39;t changed the behavior of any APIs we exposed in the previous release candidate. Here&#39;s a summary of the changes:</p>
+<p>And here is the response to that query.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">3500401</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Jing Chen&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;isViewerFriend&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;profilePicture&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;http://someurl.cdn/pic.jpg&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+      <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mi">50</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>We will dig into the syntax and semantics of GraphQL in a later post, but even a simple example shows many of its design principles:</p>
 
 <ul>
-<li>Introduced a new API (<code>React.cloneElement</code>, see below for details).</li>
-<li>Fixed a bug related to validating <code>propTypes</code> when using the new <code>React.addons.createFragment</code> API.</li>
-<li>Improved a couple warning messages.</li>
-<li>Upgraded jstransform and esprima.</li>
+<li><strong>Hierarchical:</strong> Most product development today involves the creation and manipulation of view hierarchies. To achieve congruence with the structure of these applications, a GraphQL query itself is a hierarchical set of fields. The query is shaped just like the data it returns. It is a natural way for product engineers to describe data requirements.</li>
+<li><strong>Product-centric:</strong> GraphQL is unapologetically driven by the requirements of views and the front-end engineers that write them. We start with their way of thinking and requirements and build the language and runtime necessary to enable that.</li>
+<li><strong>Client-specified queries:</strong> In GraphQL, the specification for queries are encoded in the <em>client</em> rather than the <em>server</em>. These queries are specified at field-level granularity. In the vast majority of applications written without GraphQL, the server determines the data returned in its various scripted endpoints. A GraphQL query, on the other hand, returns exactly what a client asks for and no more.</li>
+<li><strong>Backwards Compatible:</strong> In a world of deployed native mobile applications with no forced upgrades, backwards compatibility is a challenge. Facebook, for example, releases apps on a two week fixed cycle and pledges to maintain those apps for <em>at least</em> two years. This means there are at a <em>minimum</em> 52 versions of our clients per platform querying our servers at any given time. Client-specified queries simplifies managing our backwards compatibility guarantees.</li>
+<li><strong>Structured, Arbitrary Code:</strong> Query languages with field-level granularity have typically queried storage engines directly, such as SQL. GraphQL instead imposes a structure onto a server, and exposes fields that are backed by <em>arbitrary code</em>. This allows for both server-side flexibility and a uniform, powerful API across the entire surface area of an application.</li>
+<li><strong>Application-Layer Protocol:</strong> GraphQL is an application-layer protocol and does not require a particular transport. It is a string that is parsed and interpreted by a server.</li>
+<li><strong>Strongly-typed:</strong> GraphQL is strongly-typed. Given a query, tooling can ensure that the query is both syntactically correct and valid within the GraphQL type system before execution, i.e. at development time, and the server can make certain guarantees about the shape and nature of the response. This makes it easier to build high quality client tools.</li>
+<li><strong>Introspective:</strong> GraphQL is introspective. Clients and tools can query the type system using the GraphQL syntax itself. This is a powerful platform for building tools and client software, such as automatic parsing of incoming data into strongly-typed interfaces. It is especially useful in statically typed languages such as Swift, Objective-C and Java, as it obviates the need for repetitive and error-prone code to shuffle raw, untyped JSON into strongly-typed business objects.</li>
 </ul>
+<h2><a class="anchor" name="why-invent-something-new"></a>Why invent something new? <a class="hash-link" href="#why-invent-something-new">#</a></h2>
+<p>Obviously GraphQL is not the first system to manage client-server interactions. In today&#39;s world there are two dominant architectural styles for client-server interaction: REST and <em>ad hoc</em> endpoints. </p>
+<h3><a class="anchor" name="rest"></a>REST <a class="hash-link" href="#rest">#</a></h3>
+<p>REST, an acronym for Representational State Transfer, is an architectural style rather than a formal protocol. There is actually much debate about what exactly REST is and is not. We wish to avoid such debates. We are interested in the typical attributes of systems that <em>self-identify</em> as REST, rather than systems which are formally REST.</p>
 
-<p>The release candidate is available for download:</p>
+<p>Objects in a typical REST system are addressable by URI and interacted with using verbs in the HTTP protocol. An HTTP GET to a particular URI fetches an object and returns a server-specified set of fields. An HTTP PUT edits an object; an HTTP DELETE deletes an object; and so on.</p>
+
+<p>We believe there are a number of weakness in typical REST systems, ones that are particularly problematic in mobile applications:</p>
 
 <ul>
-<li><strong>React</strong><br>
-Dev build with warnings: <a href="https://fb.me/react-0.13.0-rc2.js">https://fb.me/react-0.13.0-rc2.js</a><br>
-Minified build for production: <a href="https://fb.me/react-0.13.0-rc2.min.js">https://fb.me/react-0.13.0-rc2.min.js</a><br></li>
-<li><strong>React with Add-Ons</strong><br>
-Dev build with warnings: <a href="https://fb.me/react-with-addons-0.13.0-rc2.js">https://fb.me/react-with-addons-0.13.0-rc2.js</a><br>
-Minified build for production: <a href="https://fb.me/react-with-addons-0.13.0-rc2.min.js">https://fb.me/react-with-addons-0.13.0-rc2.min.js</a><br></li>
-<li><strong>In-Browser JSX transformer</strong><br>
-<a href="https://fb.me/JSXTransformer-0.13.0-rc2.js">https://fb.me/JSXTransformer-0.13.0-rc2.js</a></li>
+<li>Fetching complicated object graphs require multiple round trips between the client and server to render single views. For mobile applications operating in variable network conditions, these multiple roundtrips are highly undesirable.</li>
+<li>Invariably fields and additional data are added to REST endpoints as the system requirements change. However, old clients also receive this additional data as well, because the data fetching specification is encoded on the server rather than the client. As result, these payloads tend to grow over time for all clients. When this becomes a problem for a system, one solution is to overlay a versioning system onto the REST endpoints. Versioning also complicates a server, and results in code duplication, spaghetti code, or a sophisticated, hand-rolled infrastructure to manage it. Another solution to limit over-fetching is to provide multiple views – such as “compact” vs “full” – of the same REST endpoint, however this coarse granularity often does not offer adequate flexibility.</li>
+<li>REST endpoints are usually weakly-typed and lack machine-readable metadata. While there is much debate about the merits of strong- versus weak-typing in distributed systems, we believe in strong typing because of the correctness guarantees and tooling opportunities it provides. Developers deal with systems that lack this metadata by inspecting frequently out-of-date documentation and then writing code against the documentation.</li>
+<li>Many of these attributes are linked to the fact that “REST is intended for long-lived network-based applications that span multiple organizations” <a href="http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven">according to its inventor</a>. This is not a requirement for APIs that serve a client app built within the same organization.</li>
 </ul>
 
-<p>We&#39;ve also published version <code>0.13.0-rc2</code> of the <code>react</code> and <code>react-tools</code> packages on npm and the <code>react</code> package on bower.</p>
+<p>Nearly all externally facing REST APIs we know of trend or end up in these non-ideal states, as well as nearly all <em>internal</em> REST APIs. The consequences of opaqueness and over-fetching are more severe in internal APIs since their velocity of change and level of usage is almost always higher.</p>
 
-<hr>
-<h2><a class="anchor" name="react.cloneelement"></a>React.cloneElement <a class="hash-link" href="#react.cloneelement">#</a></h2>
-<p>In React v0.13 RC2 we will introduce a new API, similar to <code>React.addons.cloneWithProps</code>, with this signature:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">React</span><span class="p">.</span><span class="nx">cloneElement</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">props</span><span class="p">,</span> <span class="p">...</span><span class="nx">children</span><span class="p">);</span>
-</code></pre></div>
-<p>Unlike <code>cloneWithProps</code>, this new function does not have any magic built-in behavior for merging <code>style</code> and <code>className</code> for the same reason we don&#39;t have that feature from <code>transferPropsTo</code>. Nobody is sure what exactly the complete list of magic things are, which makes it difficult to reason about the code and difficult to reuse when <code>style</code> has a different signature (e.g. in the upcoming React Native).</p>
+<p>Because of multiple round-trips and over-fetching, applications built in the REST style inevitably end up building <em>ad hoc</em> endpoints that are superficially in the REST style. These actually couple the data to a particular view which explicitly violates one of REST&#39;s major goals. Most REST systems of any complexity end up as a continuum of endpoints that span from “traditional” REST to <em>ad hoc</em> endpoints.</p>
+<h3><a class="anchor" name="ad-hoc-endpoints"></a>Ad Hoc Endpoints <a class="hash-link" href="#ad-hoc-endpoints">#</a></h3>
+<p>Many applications have no formalized client-server contract. Product developers access server capabilities through <em>ad hoc</em> endpoints and write custom code to fetch the data they need. Servers define procedures, and they return data. This approach has the virtue of simplicity, but can often become untenable as systems age.</p>
 
-<p><code>React.cloneElement</code> is <em>almost</em> equivalent to:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="o">&lt;</span><span class="nx">element</span><span class="p">.</span><span class="nx">type</span> <span class="p">{...</span><span class="nx">element</span><span class="p">.</span><span class="nx">props</span><span class="p">}</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">children</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/element.type&gt;</span>
-</code></pre></div>
-<p>However, unlike JSX and <code>cloneWithProps</code>, it also preserves <code>ref</code>s. This means that if you get a child with a <code>ref</code> on it, you won&#39;t accidentally steal it from your ancestor. You will get the same <code>ref</code> attached to your new element.</p>
+<ul>
+<li>These systems typically define a custom endpoint per view. For systems with a wide surface area this can quickly grow into a maintenance nightmare of orphaned endpoints, inconsistent tooling, and massive server code duplication. Disciplined engineering organizations can mitigate these issues with great engineering practices, high quality abstractions, and custom tooling. However, given our experience we believe that custom endpoints tend to lead to entropic server codebases.</li>
+<li>Much like REST, the payloads of custom endpoints grow monotonically (even with mitigation from versioning systems) as the server evolves. Deployed clients cannot break, and, with rapid release cycles and backwards compatibility guarantees, distributed applications will have large numbers of extant versions. Under these constraints it is difficult to remove data from a custom endpoint.</li>
+<li>Custom endpoints tend to – for a client developer – create a clunky, multi-language, multi-environment development process. No matter if the data has been accessed before in a different view, they are required to first change the custom endpoint, then deploy that code to a server accessible from a mobile device, and only then change the client to utilize that data. In GraphQL  – unless the data in the view is completely new to the entire system  – a product developer adds a field to a GraphQL query and the work on the client continues unabated.</li>
+<li>Much like REST, most systems with custom endpoints do not have a formalized type system, which eliminates the possibility for the tools and guarantees that introspective type systems can provide. Some custom-endpoint-driven systems do use a strongly typed serialization scheme, such as Protocol Buffers, Thrift, or XML. Those do allow for direct parsing of responses into typed classes and eliminating boilerplate shuffling from JSON into handwritten classes. These systems are as not as expressive and flexible as GraphQL, and the other downsides of <em>ad hoc</em> endpoints remain.</li>
+</ul>
 
-<p>One common pattern is to map over your children and add a new prop. There were many issues reported about <code>cloneWithProps</code> losing the ref, making it harder to reason about your code. Now following the same pattern with <code>cloneElement</code> will work as expected. For example:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">newChildren</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Children</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">child</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">React</span><span class="p">.</span><span class="nx">cloneElement</span><span class="p">(</span><span class="nx">child</span><span class="p">,</span> <span class="p">{</span> <span class="nx">foo</span><span class="o">:</span> <span class="kc">true</span> <span class="p">})</span>
-<span class="p">});</span>
-</code></pre></div>
-<blockquote>
-<p>Note: <code>React.cloneElement(child, { ref: &#39;newRef&#39; })</code> <em>DOES</em> override the <code>ref</code> so it is still not possible for two parents to have a ref to the same child, unless you use callback-refs.</p>
-</blockquote>
+<p>We believe that GraphQL represents a novel way of structuring the client-server contract. Servers publish a type system specific to their application, and GraphQL provides a unified language to query data within the constraints of that type system. That language allows product developers to express data requirements in a form natural to them: a declarative and hierarchal one.</p>
 
-<p>This was a critical feature to get into React 0.13 since props are now immutable. The upgrade path is often to clone the element, but by doing so you might lose the <code>ref</code>. Therefore, we needed a nicer upgrade path here. As we were upgrading callsites at Facebook we realized that we needed this method. We got the same feedback from the community. Therefore we decided to make another RC before the final release to make sure we get this in.</p>
+<p>This is a liberating platform for product developers. With GraphQL, no more contending with <em>ad hoc</em> endpoints or object retrieval with multiple roundtrips to access server data; instead an elegant, hierarchical, declarative query dispatched to a single endpoint. No more  frequent jumps between client and server development environments to do experimentation or to change or create views of existing data; instead experiments are done and new views built within a native, client development environment exclusively. No more shuffling unstructured data from <em>ad hoc</em> endpoints into business objects; instead a powerful, introspective type system that serves as a platform for tool building.</p>
 
-<p>We plan to eventually deprecate <code>React.addons.cloneWithProps</code>. We&#39;re not doing it yet, but this is a good opportunity to start thinking about your own uses and consider using <code>React.cloneElement</code> instead. We&#39;ll be sure to ship a release with deprecation notices before we actually remove it so no immediate action is necessary.</p>
+<p>Product developers are free to focus on their client software and requirements while rarely leaving their development environment; they can more confidently support shipped clients as a system evolves; and they are using a protocol designed to operate well within the constraints of mobile applications. Product developers can query for exactly what they want, in the way they think about it, across their entire application&#39;s data model. </p>
+<h2><a class="anchor" name="whats-next"></a>What&#39;s next? <a class="hash-link" href="#whats-next">#</a></h2>
+<p>Over the coming months, we will share more technical details about GraphQL, including additional language features, tools that support it, and how it is built and used at Facebook. These posts will culminate in a formal specification of GraphQL to guide implementors across various languages and platforms. We also plan on releasing a reference implementation in the summer, in order to provide a basis for custom deployments and a platform for experimentation. We&#39;re incredibly excited to share this system and work with the open source community to improve it.</p>
 
 </div>
 
@@ -657,19 +485,51 @@ Minified build for production: <a href="https://fb.me/react-with-addons-0.13.0-r
 </section>
 
 
-    <footer class="wrap">
-      <div class="left">
-        A Facebook &amp; Instagram collaboration.<br>
-        <a href="/react/acknowledgements.html">Acknowledgements</a>
-      </div>
-      <div class="right">
-        &copy; 2013&ndash;2016 Facebook Inc.<br>
-        Documentation licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-      </div>
-    </footer>
-  </div>
-  <div id="fb-root"></div>
+    <footer class="nav-footer">
+  <section class="sitemap">
+    <a href="/react/" class="nav-home">
+    </a>
+    <div>
+      <h5><a href="/react/docs/">Docs</a></h5>
+      <a href="/react/docs/hello-world.html">Quick Start</a>
+      <a href="/react/docs/thinking-in-react.html">Thinking in React</a>
+      <a href="/react/tutorial/tutorial.html">Tutorial</a>
+      <a href="/react/docs/jsx-in-depth.html">Advanced Guides</a>
+    </div>
+    <div>
+      <h5><a href="/react/community/support.html">Community</a></h5>
+      <a href="http://stackoverflow.com/questions/tagged/reactjs" target="_blank">Stack Overflow</a>
+      <a href="https://discuss.reactjs.org/" target="_blank">Discussion Forum</a>
+      <a href="https://discord.gg/0ZcbPKXt5bZjGY5n" target="_blank">Reactiflux Chat</a>
+      <a href="https://www.facebook.com/react" target="_blank">Facebook</a>
+      <a href="https://twitter.com/reactjs" target="_blank">Twitter</a>
+    </div>
+    <div>
+      <h5><a href="/react/community/support.html">Resources</a></h5>
+      <a href="/react/community/conferences.html">Conferences</a>
+      <a href="/react/community/videos.html">Videos</a>
+      <a href="https://github.com/facebook/react/wiki/Examples" target="_blank">Examples</a>
+      <a href="https://github.com/facebook/react/wiki/Complementary-Tools" target="_blank">Complementary Tools</a>
+    </div>
+    <div>
+      <h5>More</h5>
+      <a href="/react/blog/">Blog</a>
+      <a href="https://github.com/facebook/react" target="_blank">GitHub</a>
+      <a href="http://facebook.github.io/react-native/" target="_blank">React Native</a>
+      <a href="/react/acknowledgements.html">Acknowledgements</a>
+    </div>
+  </section>
+  <a href="https://code.facebook.com/projects/" target="_blank" class="fbOpenSource">
+    <img src="/react/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/>
+  </a>
+  <section class="copyright">
+    Copyright © 2016 Facebook Inc.
+  </section>
+</footer>
 
+  </div>
+
+  <div id="fb-root"></div>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -684,7 +544,7 @@ Minified build for production: <a href="https://fb.me/react-with-addons-0.13.0-r
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=623268441017527";
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=623268441017527";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 

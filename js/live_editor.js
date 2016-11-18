@@ -1,5 +1,6 @@
 'use strict';
 
+var _jsxFileName = '_js/live_editor.js';
 var IS_MOBILE = navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i);
 
 var CodeMirrorEditor = React.createClass({
@@ -17,8 +18,8 @@ var CodeMirrorEditor = React.createClass({
   componentDidMount: function () {
     if (IS_MOBILE) return;
 
-    this.editor = CodeMirror.fromTextArea(ReactDOM.findDOMNode(this.refs.editor), {
-      mode: 'javascript',
+    this.editor = CodeMirror.fromTextArea(this.refs.editor, {
+      mode: 'jsx',
       lineNumbers: this.props.lineNumbers,
       lineWrapping: true,
       smartIndent: false, // javascript mode does bad things with jsx indents
@@ -48,16 +49,28 @@ var CodeMirrorEditor = React.createClass({
     if (IS_MOBILE) {
       editor = React.createElement(
         'pre',
-        { style: { overflow: 'scroll' } },
+        { style: { overflow: 'scroll' }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 53
+          }
+        },
         this.props.codeText
       );
     } else {
-      editor = React.createElement('textarea', { ref: 'editor', defaultValue: this.props.codeText });
+      editor = React.createElement('textarea', { ref: 'editor', defaultValue: this.props.codeText, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 55
+        }
+      });
     }
 
     return React.createElement(
       'div',
-      { style: this.props.style, className: this.props.className },
+      { style: this.props.style, className: this.props.className, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 59
+        }
+      },
       editor
     );
   }
@@ -92,8 +105,14 @@ var ReactPlayground = React.createClass({
 
   getDefaultProps: function () {
     return {
-      transformer: function (code) {
-        return babel.transform(code).code;
+      transformer: function (code, options) {
+        var presets = ['react'];
+        if (!options || !options.skipES2015Transform) {
+          presets.push('es2015');
+        }
+        return Babel.transform(code, {
+          presets: presets
+        }).code;
       },
       editorTabTitle: 'Live JSX Editor',
       showCompiledJSTab: true,
@@ -117,15 +136,15 @@ var ReactPlayground = React.createClass({
     this.setState({ mode: mode });
   },
 
-  compileCode: function () {
-    return this.props.transformer(this.state.code);
+  compileCode: function (options) {
+    return this.props.transformer(this.state.code, options);
   },
 
   render: function () {
     var isJS = this.state.mode === this.MODES.JS;
     var compiledCode = '';
     try {
-      compiledCode = this.compileCode();
+      compiledCode = this.compileCode({ skipES2015Transform: true });
     } catch (err) {}
 
     var JSContent = React.createElement(CodeMirrorEditor, {
@@ -134,7 +153,11 @@ var ReactPlayground = React.createClass({
       onChange: this.handleCodeChange,
       codeText: compiledCode,
       readOnly: true,
-      lineNumbers: this.props.showLineNumbers
+      lineNumbers: this.props.showLineNumbers,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 136
+      }
     });
 
     var JSXContent = React.createElement(CodeMirrorEditor, {
@@ -142,7 +165,11 @@ var ReactPlayground = React.createClass({
       onChange: this.handleCodeChange,
       className: 'playgroundStage',
       codeText: this.state.code,
-      lineNumbers: this.props.showLineNumbers
+      lineNumbers: this.props.showLineNumbers,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 146
+      }
     });
 
     var JSXTabClassName = 'playground-tab' + (isJS ? '' : ' playground-tab-active');
@@ -152,7 +179,11 @@ var ReactPlayground = React.createClass({
       'div',
       {
         className: JSTabClassName,
-        onClick: this.handleCodeModeSwitch.bind(this, this.MODES.JS) },
+        onClick: this.handleCodeModeSwitch.bind(this, this.MODES.JS), __source: {
+          fileName: _jsxFileName,
+          lineNumber: 160
+        }
+      },
       'Compiled JS'
     );
 
@@ -160,28 +191,53 @@ var ReactPlayground = React.createClass({
       'div',
       {
         className: JSXTabClassName,
-        onClick: this.handleCodeModeSwitch.bind(this, this.MODES.JSX) },
+        onClick: this.handleCodeModeSwitch.bind(this, this.MODES.JSX), __source: {
+          fileName: _jsxFileName,
+          lineNumber: 167
+        }
+      },
       this.props.editorTabTitle
     );
 
     return React.createElement(
       'div',
-      { className: 'playground' },
+      { className: 'playground', __source: {
+          fileName: _jsxFileName,
+          lineNumber: 174
+        }
+      },
       React.createElement(
         'div',
-        null,
+        {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 175
+          }
+        },
         JSXTab,
         this.props.showCompiledJSTab && JSTab
       ),
       React.createElement(
         'div',
-        { className: 'playgroundCode' },
+        { className: 'playgroundCode', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 179
+          }
+        },
         isJS ? JSContent : JSXContent
       ),
       React.createElement(
         'div',
-        { className: 'playgroundPreview' },
-        React.createElement('div', { ref: 'mount' })
+        { className: 'playgroundPreview', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 182
+          }
+        },
+        React.createElement('div', { ref: 'mount', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 183
+          }
+        })
       )
     );
   },
@@ -199,24 +255,34 @@ var ReactPlayground = React.createClass({
   },
 
   executeCode: function () {
-    var mountNode = ReactDOM.findDOMNode(this.refs.mount);
+    var mountNode = this.refs.mount;
 
     try {
       ReactDOM.unmountComponentAtNode(mountNode);
     } catch (e) {}
 
     try {
-      var compiledCode = this.compileCode();
+      var compiledCode;
       if (this.props.renderCode) {
-        ReactDOM.render(React.createElement(CodeMirrorEditor, { codeText: compiledCode, readOnly: true }), mountNode);
+        compiledCode = this.compileCode({ skipES2015Transform: true });
+        ReactDOM.render(React.createElement(CodeMirrorEditor, { codeText: compiledCode, readOnly: true, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 214
+          }
+        }), mountNode);
       } else {
+        compiledCode = this.compileCode({ skipES2015Transform: false });
         eval(compiledCode);
       }
     } catch (err) {
       this.setTimeout(function () {
         ReactDOM.render(React.createElement(
           'div',
-          { className: 'playgroundError' },
+          { className: 'playgroundError', __source: {
+              fileName: _jsxFileName,
+              lineNumber: 224
+            }
+          },
           err.toString()
         ), mountNode);
       }, 500);
