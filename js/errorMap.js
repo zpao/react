@@ -142,5 +142,19 @@ var errorMap = {
   "140": "Expected hook events to fire for the child before its parent includes it in onSetChildren().",
   "141": "Expected onSetChildren() to fire for a container child before its parent includes it in onSetChildren().",
   "142": "Expected onBeforeMountComponent() parent and onSetChildren() to be consistent (%s has parents %s and %s).",
-  "143": "React.Children.only expected to receive a single React element child."
+  "143": "React.Children.only expected to receive a single React element child.",
+  "144": "Item must have been set",
+  "145": "React.PropTypes type checking code is stripped in production.",
+  "146": "Missing injection for fiber findDOMNode",
+  "147": "Missing injection for stack findDOMNode",
+  "148": "Unable to find node on an unmounted component.",
+  "149": "Missing owner for string ref %s",
+  "150": "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.",
+  "151": "Unexpected context found on stack",
+  "152": "Expected subtree parent to be a mounted class component",
+  "153": "Found unexpected detached subtree parent",
+  "154": "Missing injection for fiber getContextForSubtree",
+  "155": "Fiber needs to be injected to handle a fiber target for controlled events.",
+  "156": "The internal instance must be a React host component.",
+  "157": "hostContainerInfo should be populated before getPublicInstance is called."
 };
